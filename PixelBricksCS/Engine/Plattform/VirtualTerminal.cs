@@ -45,4 +45,11 @@ internal static class VirtualTerminal
     mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
     SetConsoleMode(handle, mode);
   }
+
+  public static void Disable() {
+    IntPtr handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetConsoleMode(handle, out uint mode);
+    mode &= ~ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    SetConsoleMode(handle, mode);
+  }
 }
