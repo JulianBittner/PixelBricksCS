@@ -21,7 +21,28 @@ namespace PixelBricksCS.Sandbox
       DiagnisticsTest();
     }
 
-    private static FrameBuffer AssembleTestFarmeBuffer0() {
+    public static void DiagnisticsTest() {
+      var fb1 = AssembleHorizontalLineFarmeBuffer();
+      var fb2 = AssembleVerticalColorsFarmeBuffer();
+
+      for (SpeedProbe probe = new("TextComposer1");
+           probe.RepeatLoop();
+           probe.Continue()) {
+        TextComposer.ComposeStringArr(GameTitle.Lines);
+      }
+
+      for (SpeedProbe probe = new("AssambleFarmeBuffer");
+           probe.RepeatLoop();
+           probe.Continue()) {
+        AssembleRandomizeFarmeBuffer();
+      }
+
+      
+
+      DiagnosticsScreen.PresentOverlayAtLine(10);
+    }
+
+    private static FrameBuffer AssembleRandomizeFarmeBuffer() {
       var frameBuffer = new FrameBuffer(20, 40);
 
       var random = new Random();
@@ -40,7 +61,7 @@ namespace PixelBricksCS.Sandbox
       return frameBuffer;
     }
 
-    private static FrameBuffer AssembleTestFarmeBuffer1() {
+    private static FrameBuffer AssembleHorizontalLineFarmeBuffer() {
       var frameBuffer = new FrameBuffer(20, 40);
 
       for (int y = 0; y < frameBuffer.Height; y++) {
@@ -54,7 +75,7 @@ namespace PixelBricksCS.Sandbox
       return frameBuffer;
     }
 
-    private static FrameBuffer AssembleTestFarmeBuffer2() {
+    private static FrameBuffer AssembleVerticalColorsFarmeBuffer() {
       var frameBuffer = new FrameBuffer(20, 40);
 
       for (int y = 0; y < frameBuffer.Height; y++) {
@@ -66,29 +87,6 @@ namespace PixelBricksCS.Sandbox
         }
       }
       return frameBuffer;
-    }
-
-    public static void DiagnisticsTest() {
-      var fb1 = AssembleTestFarmeBuffer1();
-      var fb2 = AssembleTestFarmeBuffer2();
-
-      for (SpeedProbe probe = new("AssambleFarmeBuffer");
-           probe.RepeatLoop(500);
-           probe.Continue()) {
-        AssembleTestFarmeBuffer0();
-      }
-      for (SpeedProbe probe = new("AssambleFarmeBuffer");
-           probe.RepeatLoop();
-           probe.Continue()) {
-        AssembleTestFarmeBuffer0();
-      }
-      ValueTracer.TraceValue("test1", "123");
-
-      IssueLog.AddIssueMessage("ERROR Hello1");
-      IssueLog.AddIssueMessage("ERROR Hello2");
-      IssueLog.AddIssueMessage("ERROR Hello3");
-
-      DiagnosticsScreen.PresentOverlayAtLine(10);
     }
   }
 }
