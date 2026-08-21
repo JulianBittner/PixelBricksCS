@@ -30,10 +30,6 @@ namespace PixelBricksCS.Engine.Diagnostics
       _valueName = valueName;
       _sw.Start();
     }
-    
-    public void Start() {
-      _sw.Start();
-    }
 
     public void Continue() {
       _counter++;

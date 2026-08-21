@@ -13,9 +13,9 @@ namespace PixelBricksCS.Engine.Rendering
       _cells = new Cell[height, width];
     }
 
-    public Cell this[int x, int y] {
-      get => _cells[x, y];
-      set => _cells[x, y] = value;
+    public Cell this[int y, int x] {
+      get => _cells[y, x];
+      set => _cells[y, x] = value;
     }
 
     public int Height {  get => _cells.GetLength(0); }

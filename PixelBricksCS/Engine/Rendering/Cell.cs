@@ -4,9 +4,7 @@ using System.Text;
 
 namespace PixelBricksCS.Engine.Rendering
 {
-  internal struct Cell
+  internal readonly record struct Cell (char Character, CellColor Color = CellColor.Default)
   {
-    public char Character;
-    public CellColor Color;
   }
 }
