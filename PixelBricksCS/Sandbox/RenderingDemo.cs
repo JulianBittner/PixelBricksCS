@@ -1,4 +1,5 @@
-﻿using PixelBricksCS.Engine.Diagnostics;
+﻿using PixelBricksCS.Engine.Core;
+using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Game.Assets.AsciiArt;
 using System;
@@ -13,33 +14,74 @@ namespace PixelBricksCS.Sandbox
   {
     public static void Run()
     {
-      GameConsole.InitConsole(80, 36);
-      foreach (string str in GameTitle.Lines) {
-        Console.WriteLine(str);
-      }
-
+      GameConsole.InitConsole(80, 40);
+      //foreach (string str in GameTitle.Lines) {
+      //  Console.WriteLine(str);
+      //}
       DiagnisticsTest();
     }
 
     public static void DiagnisticsTest() {
+      FrameBuffer frameBuffer = new FrameBuffer(40, 80);
       var fb1 = AssembleHorizontalLineFarmeBuffer();
       var fb2 = AssembleVerticalColorsFarmeBuffer();
+      Region gameTitle = Region.Empty;
 
-      for (SpeedProbe probe = new("TextComposer1");
+      for (SpeedProbe probe = new("TextComposer");
            probe.RepeatLoop();
            probe.Continue()) {
-        TextComposer.ComposeStringArr(GameTitle.Lines);
+        TextComposer.WriteTextToFrameBuffer(
+          frameBuffer, 
+          GameTitle.Lines, 
+          GridPosition.Zero, 
+          CellColor.Cyan);
       }
 
       for (SpeedProbe probe = new("AssambleFarmeBuffer");
            probe.RepeatLoop();
            probe.Continue()) {
-        AssembleRandomizeFarmeBuffer();
+        fb1 = AssembleRandomizeFarmeBuffer();
       }
 
-      
+      for (SpeedProbe probe = new("RenderRegionToFrame");
+           probe.RepeatLoop();
+           probe.Continue()) {
+        RenderRegionToFrame(frameBuffer, gameTitle);
+      }      
 
+      for (SpeedProbe probe = new("Create FrameBuffer");
+           probe.RepeatLoop();
+           probe.Continue()) {
+        FrameBuffer fb3 = new(40,80);
+      }
+
+      for (SpeedProbe probe = new("ResetBuffer");
+           probe.RepeatLoop();
+           probe.Continue()) {
+        frameBuffer.ResetBuffer();
+      }
+
+      TextComposer.WriteTextToFrameBuffer(
+        frameBuffer, 
+        GameTitle.Lines, 
+        GridPosition.Zero, 
+        CellColor.Cyan);
+
+      RenderRegionToFrame(frameBuffer, gameTitle);
+      GameConsole.Present(frameBuffer);
       DiagnosticsScreen.PresentOverlayAtLine(10);
+      Console.SetCursorPosition(0, 20);
+    }
+
+    private static void RenderRegionToFrame(FrameBuffer frameBuffer,Region region) {
+      int offY = region.Position.Y;
+      int offX = region.Position.X;
+      
+      for (int y = 0; y < region.Height; y++) {
+        for (int x = 0; x < region.Width; x++) {
+          frameBuffer[y + offY, x + offX] = region[y,x];
+        }
+      }
     }
 
     private static FrameBuffer AssembleRandomizeFarmeBuffer() {

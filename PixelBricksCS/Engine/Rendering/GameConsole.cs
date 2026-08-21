@@ -12,9 +12,9 @@ namespace PixelBricksCS.Engine.Rendering
         VirtualTerminal.Enable();
         // Reset buffer size to avoid errors when resizing the window
         Console.SetWindowSize(1, 1);
-        // +1 to inhibit the console from scrolling
-        Console.SetBufferSize(width, height + 1);
-        Console.SetWindowSize(width, height + 1);
+        // +2 to inhibit the console from scrolling
+        Console.SetBufferSize(width, height + 2);
+        Console.SetWindowSize(width, height + 2);
       }
       Console.CursorVisible = false;
     }

@@ -5,21 +5,14 @@ using System.Text;
 
 namespace PixelBricksCS.Engine.Rendering
 {
-  internal class Region
+  internal class Region : FrameBufferBase
   {
-    private Cell[,] _cells;
-    public GridPosition Position { get; set; }
+    // Represents a region with zero dimensions.Used as an empty default instance
+    public static readonly Region Empty = new Region(0, 0, new(0,0));
+    public readonly GridPosition Position;
 
-    public Region(int height, int width) {
-      _cells = new Cell[height, width];
+    public Region(int height, int width, GridPosition position) : base(height, width) {
+      Position = position;
     }
-
-    public Cell this[int y, int x] {
-      get => _cells[y, x];
-      set => _cells[y, x] = value;
-    }
-
-    public int Height { get => _cells.GetLength(0); }
-    public int Width { get => _cells.GetLength(1); }
   }
 }

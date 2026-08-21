@@ -6,6 +6,7 @@ namespace PixelBricksCS.Engine.Core
 {
   internal readonly record struct GridPosition(int Y, int X)
   {
+    public static readonly GridPosition Zero = new GridPosition(0, 0);
     public GridPosition WithOffset(int offsetY, int offsetX) {
       return new GridPosition(Y + offsetY, X + offsetX);
     }
