@@ -6,6 +6,9 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 - [x] GameConsole: console setup (window size, cursor hidden, Unicode output, colors)
 - [ ] FrameBuffer: 2D cell buffer (character + color), set/clear operations
 - [ ] GameConsole.Present: flicker-free output of the full buffer to the console
+- [ ] Composers: TileMapComposer and TextComposer translate game data into cell data and write it to a region
+- [ ] Renderer: consolidates all composers and runs them in order to render a FrameBuffer
+- [ ] Game Sound: A sounds system plays sound an jingles via ohn threat  
 - [ ] Game loop: fixed update rate, delta time, input polling, render call
 - [ ] ConsoleInput: non-blocking key polling
 - [ ] Player: holds key bindings (key → action); active state decides what each action does
@@ -46,7 +49,7 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 - [ ] Layout: playing field + side panel arrangement in the buffer
 
 ## 6. Menu & App Flow
-- [ ] Title/splash screen with logo (ASCII art)
+- [ ] Title/splash screen: block-letter logo with drop-in animation on startup
 - [ ] Menu layout and rendering (title, selectable items)
 - [ ] Menu items: Start Game, Exit (Options later if needed)
 - [ ] Selection logic (highlighted item, up/down navigation, confirm)

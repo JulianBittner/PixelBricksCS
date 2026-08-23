@@ -17,17 +17,25 @@ Configure the console for game output.
 ### FrameBuffer: 2D cell buffer
 Data structure holding the frame before it's encoded and drawn.
 **Done when:**
-- [ ] Holds a 2D grid of cells (character + color)
-- [ ] A single cell can be set (character + color)
-- [ ] Clear() resets the whole buffer to blank
+- [x] Holds a 2D grid of cells (character + color)
+- [x] A single cell can be set (character + color)
+- [x] Clear() resets the whole buffer to blank
 
 ### GameConsole.Present: flicker-free output
 Send the buffer to the console in one go.
 **Done when:**
-- [ ] Full buffer is written with a single Console.Write (no per-cell writing)
-- [ ] Uses SetCursorPosition(0,0) + overwrite instead of Console.Clear()
-- [ ] Colors appear via embedded ANSI codes
-- [ ] Test: manually set a few cells, Present, verify no flicker
+- [x] Full buffer is written with a single Console.Write (no per-cell writing)
+- [x] Uses SetCursorPosition(0,0) + overwrite instead of Console.Clear()
+- [x] Colors appear via embedded ANSI codes
+- [x] Test: manually set a few cells, Present, verify no flicker
+
+### TileMapComposer: generic tile-based composing
+Composes a region from a tile map and tile set, using a shared enum to enforce valid tile IDs.
+**Done when:**
+- [ ] ITileMap<T> and ITileSet<T> are constrained to the same enum type, so mismatched map/set combinations fail at compile time
+- [ ] TileMapComposer writes each map entry as two adjacent cells with the tile's symbols and color
+- [ ] Out-of-range tile IDs are impossible (enforced by the enum) or fail loudly
+- [ ] A demo board renders visibly and correctly in the console
 
 ---
 
