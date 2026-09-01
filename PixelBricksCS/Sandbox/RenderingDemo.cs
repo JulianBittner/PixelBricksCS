@@ -1,6 +1,9 @@
-﻿using PixelBricksCS.Engine.Core;
+﻿using PixelBricksCS.Engine.Composing;
+using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Engine.Rendering;
+using PixelBricksCS.Game;
+using PixelBricksCS.Game.Assets;
 using PixelBricksCS.Game.Assets.AsciiArt;
 using System;
 using System.Collections.Generic;
@@ -15,13 +18,31 @@ namespace PixelBricksCS.Sandbox
     public static void Run()
     {
       GameConsole.InitConsole(80, 40);
-      //foreach (string str in GameTitle.Lines) {
-      //  Console.WriteLine(str);
-      //}
-      DiagnisticsTest();
+      GameConsole.Present(ComposingTest());
+      DiagnosticsScreen.PresentOverlayAtLine(10);
+      Console.SetCursorPosition(0, 20);          
     }
 
-    public static void DiagnisticsTest() {
+    public static FrameBuffer ComposingTest() {
+      FrameBuffer fb = new FrameBuffer(40,40);
+      Region rg = new Region(20,20,new());
+
+      DemoBoard brd = new();
+      TileMapComposer<MinoID> tmComposer = new TileMapComposer<MinoID>(rg, brd, new MinoTileSet());
+      IComposer cp = tmComposer;
+      
+      cp.Compose();
+      for (SpeedProbe probe = new("DempMapComposer");
+           probe.RepeatLoop(1000);
+           probe.Continue()) {
+        cp.Compose();
+      }
+
+      RenderRegionToFrame(fb, rg);
+      return fb;
+    }
+
+    public static FrameBuffer DiagnisticsTest() {
       FrameBuffer frameBuffer = new FrameBuffer(40, 80);
       var fb1 = AssembleHorizontalLineFarmeBuffer();
       var fb2 = AssembleVerticalColorsFarmeBuffer();
@@ -58,7 +79,7 @@ namespace PixelBricksCS.Sandbox
       for (SpeedProbe probe = new("ResetBuffer");
            probe.RepeatLoop();
            probe.Continue()) {
-        frameBuffer.ResetBuffer();
+        frameBuffer.Clear();
       }
 
       TextComposer.WriteTextToFrameBuffer(
@@ -68,9 +89,7 @@ namespace PixelBricksCS.Sandbox
         CellColor.Cyan);
 
       RenderRegionToFrame(frameBuffer, gameTitle);
-      GameConsole.Present(frameBuffer);
-      DiagnosticsScreen.PresentOverlayAtLine(10);
-      Console.SetCursorPosition(0, 20);
+      return frameBuffer;
     }
 
     private static void RenderRegionToFrame(FrameBuffer frameBuffer,Region region) {

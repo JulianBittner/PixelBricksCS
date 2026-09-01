@@ -1,9 +1,10 @@
 ﻿using PixelBricksCS.Engine.Core;
+using PixelBricksCS.Engine.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PixelBricksCS.Engine.Rendering
+namespace PixelBricksCS.Engine.Composing
 {
   internal static class TextComposer
   {
