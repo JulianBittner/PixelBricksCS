@@ -32,12 +32,12 @@ Send the buffer to the console in one go.
 ### TileMapComposer: generic tile-based composing
 Composes a region from a tile map and tile set, using a shared enum to enforce valid tile IDs.
 **Done when:**
-- [ ] ITileMap<T> and ITileSet<T> are constrained to the same enum type, so mismatched map/set combinations fail at compile time
-- [ ] TileMapComposer writes each map entry as two adjacent cells with the tile's symbols and color
-- [ ] Out-of-range tile IDs are impossible (enforced by the enum) or fail loudly
-- [ ] A demo board renders visibly and correctly in the console
+- [X] ITileMap<T> and ITileSet<T> are constrained to the same enum type, so mismatched map/set combinations fail at compile time
+- [X] TileMapComposer writes each map entry as two adjacent cells with the tile's symbols and color
+- [X] Out-of-range tile IDs are impossible (enforced by the enum) or fail loudly
+- [X] A demo board renders visibly and correctly in the console
 
 ---
 
 ## Definition of Done (Sprint)
-- [ ] A test pattern (e.g. a moving █) runs smoothly and flicker-free in a loop, proving the full chain: write buffer → present → repeat.
+- [X] A test pattern (e.g. a moving █) runs smoothly and flicker-free in a loop, proving the full chain: write buffer → present → repeat.

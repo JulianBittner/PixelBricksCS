@@ -11,25 +11,27 @@ namespace PixelBricksCS.Sandbox
   // temporary class for the current sprint
   internal class RenderingDemo
   {
+    private static DemoBoard board = new();
     public static void Run()
     {
       GameConsole.InitConsole(80, 40);
-      
-      GameConsole.Present(AssembleTestBoardFrame());
+      for (int i = 0; i < 16; i++) {
+        GameConsole.Present(TestBoardFrameAnimation());
+        Thread.Sleep(500);
+      }
       DiagnosticsScreen.PresentOverlayAtLine(10);
       Console.SetCursorPosition(0, 20);
     }
 
-    public static FrameBuffer AssembleTestBoardFrame() {
-      FrameBuffer fb = new FrameBuffer(40,80);
+    public static FrameBuffer TestBoardFrameAnimation() {
+      FrameBuffer frameBuffer = new FrameBuffer(40,80);
       Region boardRegion = new Region(20,20,new());
-      DemoBoard board = new();
+      IComposer tileMapComposer = new TileMapComposer<MinoID>(boardRegion, board, new MinoTileSet());
 
-      IComposer tileMapComposer = new TileMapComposer<MinoID>(boardRegion, board, new MinoTileSet());      
       tileMapComposer.Compose();
-      
-      SandboxRenderer.RenderRegionToFrame(fb, boardRegion);
-      return fb;
+      SandboxRenderer.RenderRegionToFrame(frameBuffer, boardRegion);
+      board.Animate();
+      return frameBuffer;
     }
 
     public static FrameBuffer AssembleGameTileFrame() {
