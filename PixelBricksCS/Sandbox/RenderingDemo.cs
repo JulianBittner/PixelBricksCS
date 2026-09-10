@@ -25,18 +25,17 @@ namespace PixelBricksCS.Sandbox
 
     public static FrameBuffer TestBoardFrameAnimation() {
       FrameBuffer frameBuffer = new FrameBuffer(40,80);
-      Region boardRegion = new Region(20,20,new());
+      frameBuffer.Clear();
+      Region boardRegion = new Region(frameBuffer, new(20,20), GridPosition.Zero);
       IComposer tileMapComposer = new TileMapComposer<MinoID>(boardRegion, board, new MinoTileSet());
 
       tileMapComposer.Compose();
-      SandboxRenderer.RenderRegionToFrame(frameBuffer, boardRegion);
       board.Animate();
       return frameBuffer;
     }
 
     public static FrameBuffer AssembleGameTileFrame() {
       FrameBuffer frameBuffer = new FrameBuffer(40, 80);
-      Region gameTitle = Region.Empty;
 
       TextComposer.WriteTextToFrameBuffer(
         frameBuffer, 
@@ -44,7 +43,6 @@ namespace PixelBricksCS.Sandbox
         GridPosition.Zero, 
         CellColor.Cyan);
 
-      SandboxRenderer.RenderRegionToFrame(frameBuffer, gameTitle);
       return frameBuffer;
     }
   }

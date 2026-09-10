@@ -13,7 +13,6 @@ namespace PixelBricksCS.Sandbox
   {
     public static void RunTests() {
       FrameBuffer frameBuffer = new FrameBuffer(40, 80);
-      Region region = Region.Empty;
 
       for (SpeedProbe probe = new("Create 40x80 FrameBuffer");
            probe.RepeatLoop();
@@ -25,12 +24,6 @@ namespace PixelBricksCS.Sandbox
            probe.RepeatLoop();
            probe.Continue()) {
         frameBuffer.Clear();
-      }
-
-      for (SpeedProbe probe = new("RenderRegionToFrame");
-           probe.RepeatLoop();
-           probe.Continue()) {
-        SandboxRenderer.RenderRegionToFrame(frameBuffer, region);
       }
 
       for (SpeedProbe probe = new("WriteGameTitleToFrameBuffer");

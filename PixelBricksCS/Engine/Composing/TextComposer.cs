@@ -8,7 +8,7 @@ namespace PixelBricksCS.Engine.Composing
 {
   internal static class TextComposer
   {
-    public static void WriteTextToFrameBuffer(FrameBufferBase fb,
+    public static void WriteTextToFrameBuffer(FrameBuffer fb,
                                               string[] text,
                                               GridPosition position,
                                               CellColor color = CellColor.Default) {
