@@ -26,14 +26,13 @@ namespace PixelBricksCS.Sandbox
         frameBuffer.Clear();
       }
 
+      IComposer composer = new TextComposer(GameTitle.Lines);
       for (SpeedProbe probe = new("WriteGameTitleToFrameBuffer");
            probe.RepeatLoop();
            probe.Continue()) {
-        TextComposer.WriteTextToFrameBuffer(
+        composer.Compose(
           frameBuffer,
-          GameTitle.Lines,
-          GridPosition.Zero,
-          CellColor.Cyan);
+          GridPosition.Zero);
       }      
     }
   }

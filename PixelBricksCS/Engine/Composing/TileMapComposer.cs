@@ -1,4 +1,5 @@
-﻿using PixelBricksCS.Engine.Rendering;
+﻿using PixelBricksCS.Engine.Core;
+using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Sandbox;
 using System;
 using System.Collections.Generic;
@@ -20,23 +21,21 @@ namespace PixelBricksCS.Engine.Composing
   /// </typeparam>
   internal class TileMapComposer<T> : IComposer where T : Enum
   {
-    private Region _region;
     private ITileMap<T> _map;
     private ITileSet<T> _set;
     
-    public TileMapComposer(Region region, ITileMap<T> map, ITileSet<T> set) {
-      _region = region;
+    public TileMapComposer(ITileMap<T> map, ITileSet<T> set) {
       _map = map;
       _set = set;
     }
-    void IComposer.Compose() {
+    void IComposer.Compose(FrameBuffer frameBuffer, GridPosition position) {
       for (int y = 0; y < _map.Height; y++) {
         for (int x = 0; x < _map.Width; x++) {
           T tileID = _map[y, x];
-          _region[y, (x*2)    ] = 
+          frameBuffer[y + position.Y, ((x + position.X)*2)    ] = 
             new(_set[tileID].Symbol0, 
                 _set[tileID].Color);
-          _region[y, (x*2) + 1] = 
+          frameBuffer[y + position.Y, ((x + position.X)*2) + 1] = 
             new(_set[tileID].Symbol1, 
                 _set[tileID].Color);
         }

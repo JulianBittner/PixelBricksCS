@@ -11,37 +11,55 @@ namespace PixelBricksCS.Sandbox
   // temporary class for the current sprint
   internal class RenderingDemo
   {
-    private static DemoBoard board = new();
     public static void Run()
     {
       GameConsole.InitConsole(80, 40);
-      for (int i = 0; i < 16; i++) {
-        GameConsole.Present(TestBoardFrameAnimation());
-        Thread.Sleep(500);
-      }
+
+      TestAnimation();
+
       DiagnosticsScreen.PresentOverlayAtLine(10);
       Console.SetCursorPosition(0, 20);
     }
 
-    public static FrameBuffer TestBoardFrameAnimation() {
-      FrameBuffer frameBuffer = new FrameBuffer(40,80);
-      frameBuffer.Clear();
-      Region boardRegion = new Region(frameBuffer, new(20,20), GridPosition.Zero);
-      IComposer tileMapComposer = new TileMapComposer<MinoID>(boardRegion, board, new MinoTileSet());
+    public static void TestAnimation() {
+      Renderer renderer = new Renderer(new FrameBuffer(40, 80));
+      DemoBoard board1 = new();
+      DemoBoard board2 = new();
+      DemoBoard board3 = new();
 
-      tileMapComposer.Compose();
-      board.Animate();
-      return frameBuffer;
+      // Renders the GameTitle to the top of the screen
+      renderer.AddStaticComposer(
+        new TextComposer(GameTitle.Lines, CellColor.Cyan),
+        GridPosition.Zero);
+      // Renders a static DemoBoard to the middle of the screen
+      renderer.AddStaticComposer(
+        new TileMapComposer<MinoID>(board1, new MinoTileSet()),
+        new GridPosition(16, 5));
+      // Renders two animated DemoBoards below GameTitle
+      renderer.AddDynamicComposer(
+        new TileMapComposer<MinoID>(board2, new MinoTileSet()),
+        new GridPosition(6, 5));
+      renderer.AddDynamicComposer(
+        new TileMapComposer<MinoID>(board3, new MinoTileSet()),
+        new GridPosition(6, 20));
+
+      renderer.RenderStaticContent();
+      for (int i = 0; i < 16; i++) {
+        board2.Animate();
+        renderer.RenderDynamicContent();
+        board3.Animate();
+        GameConsole.Present(renderer.TargetBuffer);
+        Thread.Sleep(500);
+      }
     }
 
     public static FrameBuffer AssembleGameTileFrame() {
       FrameBuffer frameBuffer = new FrameBuffer(40, 80);
+      IComposer composer = new TextComposer(GameTitle.Lines);
 
-      TextComposer.WriteTextToFrameBuffer(
-        frameBuffer, 
-        GameTitle.Lines, 
-        GridPosition.Zero, 
-        CellColor.Cyan);
+      composer.Compose(
+        frameBuffer,
+        GridPosition.Zero);
 
       return frameBuffer;
     }

@@ -6,9 +6,20 @@ using System.Text;
 
 namespace PixelBricksCS.Engine.Composing
 {
-  internal static class TextComposer
+  internal class TextComposer : IComposer
   {
-    public static void WriteTextToFrameBuffer(FrameBuffer fb,
+    private readonly string[] _text;
+    private readonly CellColor _color;
+
+    public TextComposer(string[] text, CellColor color = CellColor.Default) {
+      _text = text;
+      _color = color;
+    }
+
+    void IComposer.Compose(FrameBuffer frameBuffer, GridPosition position) {
+      WriteTextToFrameBuffer(frameBuffer, _text, position, _color);
+    }
+    public void WriteTextToFrameBuffer(FrameBuffer fb,
                                               string[] text,
                                               GridPosition position,
                                               CellColor color = CellColor.Default) {

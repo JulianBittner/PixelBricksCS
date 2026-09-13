@@ -1,43 +1,33 @@
-# Sprint 1 – Rendering Foundation
+# Sprint 2 – Add Renderer, refactor composers
 
-**Goal:** A visible, flicker-free rendering chain — I can put content into a buffer and see it on screen.
+**Goal:** Composers write into a shared FrameBuffer at a given position, managed by the Renderer.
 
 ---
 
 ## Tasks
 
-### GameConsole: console setup
-Configure the console for game output.
+### Update rendering pipeline diagram
+The existing diagram still shows the old flow (Region → Rendering → FrameBuffer). Update it to reflect the new structure where the Renderer owns the FrameBuffer and drives stateless composers with positions.
 **Done when:**
-- [x] Window has a fixed size
-- [x] Cursor is hidden
-- [x] Unicode blocks (█) render correctly
-- [x] Virtual terminal processing enabled (ANSI color codes are interpreted, not printed literally)
+- [x] Diagram in docs/diagrams reflects the new Renderer/composer flow
+- [x] Exported PNG/SVG is regenerated and committed alongside the .drawio source
 
-### FrameBuffer: 2D cell buffer
-Data structure holding the frame before it's encoded and drawn.
+### Composers become stateless: receive target and position per call
+Composers no longer hold their own target. Instead, Compose(FrameBuffer, GridPosition) receives both on every invocation, so the same composer instance can be used for any target at any position.
 **Done when:**
-- [x] Holds a 2D grid of cells (character + color)
-- [x] A single cell can be set (character + color)
-- [x] Clear() resets the whole buffer to blank
+- [x] IComposer.Compose signature takes FrameBuffer and GridPosition
+- [x] TileMapComposer no longer holds a target in its state
+- [x] Composers write each cell at (position.Y + y, position.X + x)
 
-### GameConsole.Present: flicker-free output
-Send the buffer to the console in one go.
+### Renderer owns the FrameBuffer and drives composers
+The Renderer holds the target FrameBuffer and a list of composers with their positions. On each render, it invokes every composer against the shared buffer in order.
 **Done when:**
-- [x] Full buffer is written with a single Console.Write (no per-cell writing)
-- [x] Uses SetCursorPosition(0,0) + overwrite instead of Console.Clear()
-- [x] Colors appear via embedded ANSI codes
-- [x] Test: manually set a few cells, Present, verify no flicker
-
-### TileMapComposer: generic tile-based composing
-Composes a region from a tile map and tile set, using a shared enum to enforce valid tile IDs.
-**Done when:**
-- [X] ITileMap<T> and ITileSet<T> are constrained to the same enum type, so mismatched map/set combinations fail at compile time
-- [X] TileMapComposer writes each map entry as two adjacent cells with the tile's symbols and color
-- [X] Out-of-range tile IDs are impossible (enforced by the enum) or fail loudly
-- [X] A demo board renders visibly and correctly in the console
+- [x] Renderer owns the FrameBuffer instance
+- [x] Renderer holds a list of (composer, position) entries
+- [x] On render, each composer is invoked with the shared FrameBuffer and its position, in list order
+- [x] Later entries can overwrite earlier ones (draw order = list order)
 
 ---
 
 ## Definition of Done (Sprint)
-- [X] A test pattern (e.g. a moving █) runs smoothly and flicker-free in a loop, proving the full chain: write buffer → present → repeat.
+- [x] A demo places two independent composers (e.g. a small board and a title) at different positions in the same FrameBuffer via the Renderer, and both appear correctly.

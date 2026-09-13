@@ -7,7 +7,7 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 - [x] FrameBuffer: 2D cell buffer (character + color), set/clear operations
 - [x] GameConsole.Present: flicker-free output of the full buffer to the console
 - [x] Composers: TileMapComposer and TextComposer translate game data into cell data and write it to a region
-- [ ] Renderer: consolidates all composers and runs them in order to render a FrameBuffer
+- [x] Renderer: consolidates all composers and runs them in order to render a FrameBuffer
 - [ ] Game Sound: A sounds system plays sound an jingles via ohn threat  
 - [ ] Game loop: fixed update rate, delta time, input polling, render call
 - [ ] ConsoleInput: non-blocking key polling
