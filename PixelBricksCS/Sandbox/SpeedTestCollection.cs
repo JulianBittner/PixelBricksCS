@@ -2,7 +2,7 @@
 using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Engine.Rendering;
-using PixelBricksCS.Game.Assets.AsciiArt;
+using PixelBricksCS.Game.Assets;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +26,7 @@ namespace PixelBricksCS.Sandbox
         frameBuffer.Clear();
       }
 
-      IComposer composer = new TextComposer(GameTitle.Lines);
+      IComposer composer = new BlockComposer(GameTitle.Lines);
       for (SpeedProbe probe = new("WriteGameTitleToFrameBuffer");
            probe.RepeatLoop();
            probe.Continue()) {

@@ -1,33 +1,23 @@
-# Sprint 2 – Add Renderer, refactor composers
+# Sprint 3 – Block letter composing and animation
 
-**Goal:** Composers write into a shared FrameBuffer at a given position, managed by the Renderer.
+**Goal:** Compose arbitrary strings from a block-letter font and animate them over time.
 
 ---
 
 ## Tasks
 
-### Update rendering pipeline diagram
-The existing diagram still shows the old flow (Region → Rendering → FrameBuffer). Update it to reflect the new structure where the Renderer owns the FrameBuffer and drives stateless composers with positions.
+### BlockLetterComposer: block-letter text to region
+Composes a region from a plain string by looking up each character in a
+block-letter font and placing the letters side by side.
 **Done when:**
-- [x] Diagram in docs/diagrams reflects the new Renderer/composer flow
-- [x] Exported PNG/SVG is regenerated and committed alongside the .drawio source
-
-### Composers become stateless: receive target and position per call
-Composers no longer hold their own target. Instead, Compose(FrameBuffer, GridPosition) receives both on every invocation, so the same composer instance can be used for any target at any position.
-**Done when:**
-- [x] IComposer.Compose signature takes FrameBuffer and GridPosition
-- [x] TileMapComposer no longer holds a target in its state
-- [x] Composers write each cell at (position.Y + y, position.X + x)
-
-### Renderer owns the FrameBuffer and drives composers
-The Renderer holds the target FrameBuffer and a list of composers with their positions. On each render, it invokes every composer against the shared buffer in order.
-**Done when:**
-- [x] Renderer owns the FrameBuffer instance
-- [x] Renderer holds a list of (composer, position) entries
-- [x] On render, each composer is invoked with the shared FrameBuffer and its position, in list order
-- [x] Later entries can overwrite earlier ones (draw order = list order)
+- [x] CharSprite validates that all lines have equal length and fails loudly otherwise
+- [x] CharSprite Composers places a CharSprite into the FrameBuffer at a given position, translating characters into cells
+- [x] Given a string, each character is looked up in a letter set (e.g. BlockLetters)
+- [x] Letters are placed left-to-right into the region, advancing by each letter's width
+- [x] Characters missing from the font fail loudly or fall back to a placeholder glyph
+- [x] A demo composes a word (not just a single pre-baked title) and renders correctly
 
 ---
 
 ## Definition of Done (Sprint)
-- [x] A demo places two independent composers (e.g. a small board and a title) at different positions in the same FrameBuffer via the Renderer, and both appear correctly.
+- [x] The demo renders an arbitrary word on screen, composed letter by letter from the block-letter font, correctly positioned and colored.

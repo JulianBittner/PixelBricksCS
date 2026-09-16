@@ -1,18 +1,19 @@
-﻿using System;
+﻿using PixelBricksCS.Engine.Composing;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PixelBricksCS.Game.Assets.AsciiArt
+namespace PixelBricksCS.Game.Assets
 {
   internal static class GameTitle
   {
-    public static readonly string[] Lines = {
+    public static readonly CharSprite Lines = new([
       "██████╗ ██╗██╗  ██╗███████╗██╗     ██████╗ ██████╗ ██╗ ██████╗██╗  ██╗███████╗",
       "██╔══██╗██║╚██╗██╔╝██╔════╝██║     ██╔══██╗██╔══██╗██║██╔════╝██║ ██╔╝██╔════╝",
       "██████╔╝██║ ╚███╔╝ █████╗  ██║     ██████╔╝██████╔╝██║██║     █████╔╝ ███████╗",
       "██╔═══╝ ██║ ██╔██╗ ██╔══╝  ██║     ██╔══██╗██╔══██╗██║██║     ██╔═██╗ ╚════██║",
       "██║     ██║██╔╝ ██╗███████╗███████╗██████╔╝██║  ██║██║╚██████╗██║  ██╗███████║",
       "╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝"
-    };
+    ]);
   }
 }
