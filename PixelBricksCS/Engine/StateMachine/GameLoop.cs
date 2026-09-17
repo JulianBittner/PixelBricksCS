@@ -14,9 +14,11 @@ namespace PixelBricksCS.Engine.StateMachine
     private readonly Dictionary<T, IEngineState<T>> _states = new();
     private IEngineState<T> _currentState = null!;
     private T _nextStateID;
-    private bool _exitGameLoop = false;
+
     private FrameTimer _frameTimer = new(EngineConfig.FramesPerSecond);
     private double _deltaTime = 0;
+
+    private bool _exitGameLoop = false;
 
     public GameLoop(T initialState) {
       _nextStateID = initialState;
@@ -30,6 +32,7 @@ namespace PixelBricksCS.Engine.StateMachine
       }
 
       _currentState = _states[_nextStateID];
+      _currentState.Enter(contextHandle: this);
       _frameTimer.Start();
 
       while (!_exitGameLoop) {
@@ -40,7 +43,7 @@ namespace PixelBricksCS.Engine.StateMachine
         if (EngineConfig.DiagnosticsOverlayEnabled) 
           DiagnosticsScreen.PresentOverlay();
         
-        // Process state-requests
+        // Handle state change request
         if (!_currentState.StateID.Equals(_nextStateID)) {
           _currentState.Exit();
           _currentState = _states[_nextStateID];
@@ -52,12 +55,10 @@ namespace PixelBricksCS.Engine.StateMachine
       GameConsole.ResetCursorPosition();
     }
 
-    // API
     public void RegisterEngineState(IEngineState<T> engineState) {
       _states.Add(engineState.StateID, engineState);
     }
 
-    // Interface
     void IContextHandle<T>.RequestStateChange(T requestedStateID) {
       _nextStateID = requestedStateID;
     }

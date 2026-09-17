@@ -17,7 +17,7 @@ namespace PixelBricksCS.Sandbox
   {
     private Renderer _renderer = new Renderer(new FrameBuffer());
     IContextHandle<DemoStateID> _contextHandle = null!;
-    CountdownTimer _animationTimer = new(seconds: 0.5);
+    CountdownTimer _animationTimer = new(milliseconds: 500);
 
     DemoBoard _board1 = new();
     DemoBoard _board2 = new();

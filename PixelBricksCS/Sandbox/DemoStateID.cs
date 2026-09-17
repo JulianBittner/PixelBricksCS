@@ -6,6 +6,7 @@ namespace PixelBricksCS.Sandbox
 {
   internal enum DemoStateID
   {
+    SplashScreen = 0,
     Demo = 1,
   }
 }

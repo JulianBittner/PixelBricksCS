@@ -49,7 +49,7 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 - [ ] Layout: playing field + side panel arrangement in the buffer
 
 ## 6. Menu & App Flow
-- [ ] Title/splash screen: block-letter logo with drop-in animation on startup
+- [x] Title/splash screen: block-letter logo with drop-in animation on startup
 - [ ] Menu layout and rendering (title, selectable items)
 - [ ] Menu items: Start Game, Exit (Options later if needed)
 - [ ] Selection logic (highlighted item, up/down navigation, confirm)

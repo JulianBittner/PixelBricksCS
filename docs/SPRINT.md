@@ -1,45 +1,27 @@
-## Sprint 4 – Game loop and state machine
+# Sprint 5 – Animated splash screen
 
-**Goal:** A running engine core that drives interchangeable states frame by frame at a stable rate.
+**Goal:** Show an animated block-letter title screen on startup, then hand off to the demo state.
 
 ---
 
-### GameLoop: central loop driving game states
-The entry point for the game, holding all registered states and running the
-active one frame by frame until shutdown.
-**Done when:**
-- [x] Holds registered states in a dictionary keyed by state ID
-- [x] Starts with a given initial state, validated as registered before Run()
-- [x] Each frame: updates and renders the active state, then presents it
-- [x] Switches state when a change is requested (Exit old, Enter new)
-- [x] Exits cleanly when shutdown is requested
+## Tasks
 
-### IEngineState: interchangeable engine states
-A common contract for states like menu or game, each managing its own
-rendering and logic.
+### SplashScreen: animated title intro
+Plays once on startup, animating the game title, then switches to the demo state.
 **Done when:**
-- [x] Defines Enter, Update, Render, Exit and a StateID
-- [x] States build their own rendering pipeline and static content in a separate init step, not the constructor
-- [x] The active state receives the loop as its context on Enter
+- [x] Letters drop in from above the screen, each starting slightly after the previous one (staggered, overlapping)
+- [x] Each letter overshoots its resting position slightly, then snaps back up into place
+- [x] Each letter has its own color
+- [x] The full animation runs for roughly 2 seconds
+- [x] After the animation finishes, the screen holds for about one second, then switches to the demo state
 
-### State switching: request-based transitions
-States signal a desired switch; the loop performs it at a safe point in the frame.
+### GameMetadata: central game title and colors
+Holds the game title string and its per-letter colors, so the splash screen and later screens share one source.
 **Done when:**
-- [x] A state can request a transition via the context handle
-- [x] The loop applies the switch after update/render, not mid-state
-- [x] Shutdown can be requested the same way
-
-### FrameTimer: frame-rate limiting and delta time
-Caps the loop at a target frame rate and reports elapsed time per frame,
-so game logic moves at constant speed regardless of frame rate.
-**Done when:**
-- [x] Constructed with a target frames-per-second value
-- [x] Sleeps only for the remaining frame time after each frame
-- [x] Overrunning frames don't cause negative sleep
-- [x] Returns delta time per frame in seconds
-- [x] GameLoop uses FrameTimer to pace itself and pass delta time to states
+- [x] Provides the game title as text
+- [x] Provides the colors used for the title lettering
 
 ---
 
 ## Definition of Done (Sprint)
-- [x] Running the program starts the loop, renders the active state at a stable frame rate, switches states on request, and exits cleanly.
+- [x] Running the program plays the title animation to completion, holds briefly, then transitions into the demo state.

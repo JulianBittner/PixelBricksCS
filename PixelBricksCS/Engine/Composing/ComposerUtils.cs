@@ -21,5 +21,15 @@ namespace PixelBricksCS.Engine.Composing
         }
       }
     }
+    public static void ClearArea(
+      FrameBuffer frameBuffer,
+      GridPosition position,
+      GridSize areaSize) {
+      for (int y = 0; y < areaSize.Height; y++) {
+        for (int x = 0; x < areaSize.Width; x++) {
+          frameBuffer[y + position.Y, x + position.X] = Cell.Blank;
+        }
+      }
+    }
   }
 }

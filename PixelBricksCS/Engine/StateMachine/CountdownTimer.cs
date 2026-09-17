@@ -6,20 +6,20 @@ namespace PixelBricksCS.Engine.StateMachine
 {
   internal class CountdownTimer
   {
-    private double _duration = 0.0;
-    private double _elapsed = 0.0;
+    private double _durationInSeconds = 0.0;
+    private double _elapsedSeconds = 0.0;
 
-    public CountdownTimer(double seconds) { 
-      _duration = seconds;
+    public CountdownTimer(double milliseconds) { 
+      _durationInSeconds = milliseconds/1000;
     }
 
-    public bool TimeUp(double deltaTime) {
-      _elapsed += deltaTime;
-      return _elapsed >= _duration;
+    public bool TimeUp(double deltaTimeInSeconds) {
+      _elapsedSeconds += deltaTimeInSeconds;
+      return _elapsedSeconds >= _durationInSeconds;
     }
 
     public void Reset() {
-      _elapsed = 0.0;
+      _elapsedSeconds = 0.0;
     }
   }
 }
