@@ -10,14 +10,13 @@ namespace PixelBricksCS.Engine.Rendering
     private readonly int _height;
     private readonly int _width;
 
-    public FrameBuffer(int height, int width) {
-      _height = height;
-      _width = width;
-      _cells = new Cell[height, width];
+    public FrameBuffer() {
+      _height = EngineConfig.GameConsoleSize.Height;
+      _width  = EngineConfig.GameConsoleSize.Width;
+      _cells  = new Cell[_height, _width];
       Clear();
     }
 
-    public static readonly FrameBuffer Empty = new FrameBuffer(0, 0);
     public int Height { get => _height; }
     public int Width { get => _width; }
 

@@ -6,6 +6,13 @@ using System.Text;
 namespace PixelBricksCS.Engine.Assets
 {
   internal static class BlockLetterFont {
+    public static CharSprite GetLetter(char c) {
+      // Map uppercase letters 'A'-'Z' to 0-based indices (0-25) via ASCII offset
+      int index = c - 65;
+      if (index < 0 | index > 25) return None;
+      return Letter[c - 65];
+    }
+
     public static readonly CharSprite WhiteSpace = new([
       "   ",
       "   ",

@@ -17,7 +17,7 @@ namespace PixelBricksCS.Engine.Composing
     }
 
     void IComposer.Compose(FrameBuffer frameBuffer, GridPosition position) {
-      ComposerUtils.WriteCharSpriteToFramebuffer(frameBuffer, position, _sprite, _color);
+      ComposerUtils.WriteSprite(frameBuffer, position, _sprite, _color);
     }
   }
 }

@@ -22,17 +22,11 @@ namespace PixelBricksCS.Engine.Composing
       int letterPosition = 0;
 
       for (int i = 0; i < _text.Length; i++) {
-        // Map uppercase letters 'A'-'Z' to 0-based indices (0-25) via ASCII offset
-        CharSprite blockLetter;
-        int index = _text[i] - 65;
-        if (_text[i] == ' ')
-          blockLetter = BlockLetterFont.WhiteSpace;
-        else if (index < 0 | index > 25)
-          blockLetter = BlockLetterFont.None;
-        else
-          blockLetter = BlockLetterFont.Letter[index];
+        CharSprite blockLetter = (_text[i] == ' ') 
+          ? BlockLetterFont.WhiteSpace 
+          : BlockLetterFont.GetLetter(_text[i]);
 
-        ComposerUtils.WriteCharSpriteToFramebuffer(
+        ComposerUtils.WriteSprite(
           frameBuffer, position.WithOffset(0, letterPosition), blockLetter, _color);
         letterPosition += blockLetter[0].Length;
       }

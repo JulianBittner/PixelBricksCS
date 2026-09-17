@@ -15,8 +15,6 @@ namespace PixelBricksCS.Sandbox
   internal class RenderingDemo
   {
     public static void Run() {
-      GameConsole.InitConsole(80, 40);
-
       DemoScreen();
 
       DiagnosticsScreen.PresentOverlayAtLine(20);
@@ -24,7 +22,7 @@ namespace PixelBricksCS.Sandbox
     }
 
     public static void DemoScreen() {
-      Renderer renderer = new Renderer(new FrameBuffer(40, 80));
+      Renderer renderer = new Renderer(new FrameBuffer());
       DemoBoard board1 = new();
       DemoBoard board2 = new();
       DemoBoard board3 = new();
@@ -54,17 +52,6 @@ namespace PixelBricksCS.Sandbox
         GameConsole.Present(renderer.TargetBuffer);
         Thread.Sleep(500);
       }
-    }
-
-    public static FrameBuffer AssembleGameTileFrame() {
-      FrameBuffer frameBuffer = new FrameBuffer(40, 80);
-      IComposer composer = new BlockComposer(GameTitle.Lines);
-
-      composer.Compose(
-        frameBuffer,
-        GridPosition.Zero);
-
-      return frameBuffer;
     }
   }
 }

@@ -6,7 +6,10 @@ namespace PixelBricksCS.Engine.Rendering
 {
   static class GameConsole
   {
-    public static void InitConsole(int width, int height) {
+    public static void InitConsole() {
+      int width  = EngineConfig.GameConsoleSize.Width;
+      int height = EngineConfig.GameConsoleSize.Height;
+
       if (OperatingSystem.IsWindows()) {
         // Switches the console output mode to interpret ANSI/VT escape sequences
         VirtualTerminal.Enable();
@@ -19,18 +22,18 @@ namespace PixelBricksCS.Engine.Rendering
       Console.CursorVisible = false;
     }
 
-    public static void Present(FrameBuffer fb) {
+    public static void Present(FrameBuffer frameBuffer) {
       Console.SetCursorPosition(0, 0);
-      Console.WriteLine(FrameEncoding(fb));
+      Console.WriteLine(FrameEncoding(frameBuffer));
     }
 
-    public static string FrameEncoding(FrameBuffer fb) {
+    public static string FrameEncoding(FrameBuffer frameBuffer) {
       StringBuilder encodedFrame = new StringBuilder();
       CellColor previouseCellColor = CellColor.Default;
 
-      for (int y = 0; y < fb.Height; y++) {
-        for (int x = 0; x < fb.Width; x++) {
-          Cell currentCell = fb[y, x];
+      for (int y = 0; y < frameBuffer.Height; y++) {
+        for (int x = 0; x < frameBuffer.Width; x++) {
+          Cell currentCell = frameBuffer[y, x];
           if (previouseCellColor != currentCell.Color) {
             encodedFrame.Append(AnsiColorCode.Decode(currentCell.Color));
             previouseCellColor = currentCell.Color;

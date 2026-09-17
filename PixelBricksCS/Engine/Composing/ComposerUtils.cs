@@ -10,7 +10,7 @@ namespace PixelBricksCS.Engine.Composing
   {
     // Writes a CharSprite onto a FrameBuffer at the given grid position
     // and in a given color.
-    public static void WriteCharSpriteToFramebuffer(
+    public static void WriteSprite(
       FrameBuffer frameBuffer,
       GridPosition position,
       CharSprite sprite,

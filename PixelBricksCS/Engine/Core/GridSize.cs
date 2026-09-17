@@ -4,5 +4,5 @@ using System.Text;
 
 namespace PixelBricksCS.Engine.Core
 {
-  internal readonly record struct GridSize(int Y, int X) { }
+  internal readonly record struct GridSize(int Height, int Width) { }
 }
