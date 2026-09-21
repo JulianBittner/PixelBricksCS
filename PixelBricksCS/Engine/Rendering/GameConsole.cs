@@ -1,4 +1,5 @@
-﻿using PixelBricksCS.Engine.Platform;
+﻿using PixelBricksCS.Engine.Core;
+using PixelBricksCS.Engine.Platform;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -25,6 +26,13 @@ namespace PixelBricksCS.Engine.Rendering
     public static void Present(FrameBuffer frameBuffer) {
       Console.SetCursorPosition(0, 0);
       Console.WriteLine(FrameEncoding(frameBuffer));
+    }
+
+    /// <summary>
+    /// Resets the cursor to prevent the last frame from scrolling up after the program exit screen
+    /// </summary>
+    public static void ResetCursorPosition() { 
+      Console.SetCursorPosition(0, (EngineConfig.GameConsoleSize.Height/2));
     }
 
     public static string FrameEncoding(FrameBuffer frameBuffer) {

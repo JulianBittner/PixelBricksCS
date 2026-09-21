@@ -1,4 +1,5 @@
-﻿using PixelBricksCS.Engine.Rendering;
+﻿using PixelBricksCS.Engine.Core;
+using PixelBricksCS.Engine.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace PixelBricksCS.Engine.Diagnostics
 {
   internal class DiagnosticsScreen
   {
-    static public void PresentOverlayAtLine(int y) {
-      Console.SetCursorPosition(0, y);
+    static public void PresentOverlay() {
+      Console.SetCursorPosition(0, EngineConfig.DebugOverlayRaw);
       Console.WriteLine(AssambleOverlay());
     }
 
