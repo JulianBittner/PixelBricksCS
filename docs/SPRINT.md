@@ -1,35 +1,27 @@
-# Sprint 1 – Rendering Foundation
+# Sprint 5 – Animated splash screen
 
-**Goal:** A visible, flicker-free rendering chain — I can put content into a buffer and see it on screen.
+**Goal:** Show an animated block-letter title screen on startup, then hand off to the demo state.
 
 ---
 
 ## Tasks
 
-### GameConsole: console setup
-Configure the console for game output.
+### SplashScreen: animated title intro
+Plays once on startup, animating the game title, then switches to the demo state.
 **Done when:**
-- [x] Window has a fixed size
-- [x] Cursor is hidden
-- [x] Unicode blocks (█) render correctly
-- [x] Virtual terminal processing enabled (ANSI color codes are interpreted, not printed literally)
+- [x] Letters drop in from above the screen, each starting slightly after the previous one (staggered, overlapping)
+- [x] Each letter overshoots its resting position slightly, then snaps back up into place
+- [x] Each letter has its own color
+- [x] The full animation runs for roughly 2 seconds
+- [x] After the animation finishes, the screen holds for about one second, then switches to the demo state
 
-### FrameBuffer: 2D cell buffer
-Data structure holding the frame before it's encoded and drawn.
+### GameMetadata: central game title and colors
+Holds the game title string and its per-letter colors, so the splash screen and later screens share one source.
 **Done when:**
-- [ ] Holds a 2D grid of cells (character + color)
-- [ ] A single cell can be set (character + color)
-- [ ] Clear() resets the whole buffer to blank
-
-### GameConsole.Present: flicker-free output
-Send the buffer to the console in one go.
-**Done when:**
-- [ ] Full buffer is written with a single Console.Write (no per-cell writing)
-- [ ] Uses SetCursorPosition(0,0) + overwrite instead of Console.Clear()
-- [ ] Colors appear via embedded ANSI codes
-- [ ] Test: manually set a few cells, Present, verify no flicker
+- [x] Provides the game title as text
+- [x] Provides the colors used for the title lettering
 
 ---
 
 ## Definition of Done (Sprint)
-- [ ] A test pattern (e.g. a moving █) runs smoothly and flicker-free in a loop, proving the full chain: write buffer → present → repeat.
+- [x] Running the program plays the title animation to completion, holds briefly, then transitions into the demo state.

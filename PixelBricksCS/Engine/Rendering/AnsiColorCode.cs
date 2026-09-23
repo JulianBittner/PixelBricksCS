@@ -4,8 +4,9 @@ using System.Text;
 
 namespace PixelBricksCS.Engine.Rendering
 {
-  internal static class AnsiColor
+  internal static class AnsiColorCode
   {
+    // Reset to default color of Terminal
     public const string Reset = "\u001b[0m";
 
     // Normal (30–37)
@@ -28,10 +29,32 @@ namespace PixelBricksCS.Engine.Rendering
     public const string BrightCyan    = "\u001b[96m";
     public const string BrightWhite   = "\u001b[97m";
 
+    public static string Decode(CellColor cellColor) => cellColor switch {
+      CellColor.Default => Reset,
+      CellColor.Black => Black,
+      CellColor.Red => Red,
+      CellColor.Green => Green,
+      CellColor.Yellow => Yellow,
+      CellColor.Blue => Blue,
+      CellColor.Magenta => Magenta,
+      CellColor.Cyan => Cyan,
+      CellColor.White => White,
+      CellColor.BrightBlack => BrightBlack,
+      CellColor.BrightRed => BrightRed,
+      CellColor.BrightGreen => BrightGreen,
+      CellColor.BrightYellow => BrightYellow,
+      CellColor.BrightBlue => BrightBlue,
+      CellColor.BrightMagenta => BrightMagenta,
+      CellColor.BrightCyan => BrightCyan,
+      CellColor.BrightWhite => BrightWhite,
+      _ => throw new NotImplementedException("Undefined AnsiColor: can't decode!"),
+    };
+
     public static void ColorTestscreen()
     {
       Console.Write(Reset);
 
+      Console.WriteLine($"░▒▓█ Default Color");
       Console.WriteLine($"{Black}░▒▓█ Black");
       Console.WriteLine($"{Red}░▒▓█ Red");
       Console.WriteLine($"{Green}░▒▓█ Green");
