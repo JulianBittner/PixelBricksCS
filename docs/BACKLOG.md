@@ -10,7 +10,7 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 - [x] Renderer: consolidates all composers and runs them in order to render a FrameBuffer
 - [x] Game loop: fixed update rate, delta time, input polling, render call
 - [x] State interface (IGameState: HandleInput, Update, Render) + state switching
-- [ ] Game Sound: A sounds system plays sound an jingles via ohn threat  
+- [x] Game Sound: A sounds system plays sound and jingles  
 - [ ] ConsoleInput: non-blocking key polling
 - [ ] Player: holds key bindings (key → action); active state decides what each action does
 

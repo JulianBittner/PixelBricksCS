@@ -1,9 +1,11 @@
 ﻿using PixelBricksCS.Engine.Assets;
+using PixelBricksCS.Engine.Audio;
 using PixelBricksCS.Engine.Composing;
 using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Engine.StateMachine;
+using PixelBricksCS.Game.Assets.Sounds;
 using PixelBricksCS.Sandbox;
 using System;
 using System.Collections.Generic;
@@ -36,11 +38,15 @@ namespace PixelBricksCS.Game.SplashScreen
       var animation = GetAnimationSequence();
     }
 
-    void IEngineState<DemoStateID>.Enter(IContextHandle<DemoStateID> contextHandle) {
+    void IEngineState<DemoStateID>.Enter(
+      IContextHandle<DemoStateID> contextHandle, 
+      IAudioHandle audioHandle) 
+    {
       _contextHandle = contextHandle;
       _animation = GetAnimationSequence();
       _animation.MoveNext();
       _lastComposer = _animation.Current;
+      audioHandle.PlaySound(SplashScreenSounds.CreateSplashScreenPling(EngineConfig.MenuSoundVolume));
     }
 
     void IEngineState<DemoStateID>.Update(double deltaTime) {     
@@ -49,7 +55,6 @@ namespace PixelBricksCS.Game.SplashScreen
         _animation.MoveNext();
         _lastComposer = _animation.Current;
         _renderer.RenderDynamicContent();
-        GameConsole.Present(_renderer.TargetBuffer);
         return;
       }
       

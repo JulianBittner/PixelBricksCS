@@ -1,4 +1,5 @@
-﻿using PixelBricksCS.Engine.Core;
+﻿using PixelBricksCS.Engine.Audio;
+using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Sandbox;
@@ -18,6 +19,8 @@ namespace PixelBricksCS.Engine.StateMachine
     private FrameTimer _frameTimer = new(EngineConfig.FramesPerSecond);
     private double _deltaTime = 0;
 
+    private AudioPlayer _audioPlayer = new();
+
     private bool _exitGameLoop = false;
 
     public GameLoop(T initialState) {
@@ -31,8 +34,13 @@ namespace PixelBricksCS.Engine.StateMachine
           $"Register it via RegisterEngineState() before calling Run().");
       }
 
+      GameConsole.InitConsole();
+
+      _audioPlayer.Init();
+      _audioPlayer.Start();
+
       _currentState = _states[_nextStateID];
-      _currentState.Enter(contextHandle: this);
+      _currentState.Enter(contextHandle: this, audioHandle: _audioPlayer);
       _frameTimer.Start();
 
       while (!_exitGameLoop) {
@@ -47,11 +55,13 @@ namespace PixelBricksCS.Engine.StateMachine
         if (!_currentState.StateID.Equals(_nextStateID)) {
           _currentState.Exit();
           _currentState = _states[_nextStateID];
-          _currentState.Enter(contextHandle: this);
+          _currentState.Enter(contextHandle: this, _audioPlayer);
         }
 
         _deltaTime = _frameTimer.WaitForNextFrame();
       }
+
+      _audioPlayer.Dispose();      
       GameConsole.ResetCursorPosition();
     }
 
