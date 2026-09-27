@@ -1,4 +1,6 @@
-﻿using PixelBricksCS.Engine.Composing;
+﻿using PixelBricksCS.Engine.Assets.Sounds;
+using PixelBricksCS.Engine.Audio;
+using PixelBricksCS.Engine.Composing;
 using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Engine.Rendering;
@@ -54,8 +56,9 @@ namespace PixelBricksCS.Sandbox
       _renderer.RenderStaticContent();
     }
 
-    void IEngineState<DemoStateID>.Enter(IContextHandle<DemoStateID> contextHandle) {
+    void IEngineState<DemoStateID>.Enter(IContextHandle<DemoStateID> contextHandle, IAudioHandle audioHandle) {
       _contextHandle = contextHandle;
+      audioHandle.PlaySound(StockMusicFactory.CreateMenuMusik1(EngineConfig.MusikVolume));
     }
 
     void IEngineState<DemoStateID>.Render() {
