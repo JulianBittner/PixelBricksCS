@@ -11,7 +11,7 @@ namespace PixelBricksCS.Engine.StateMachine
     public T StateID { get; }
     public FrameBuffer TargetBuffer { get; }
     public void Enter(IContextHandle<T> contextHandle, IAudioHandle audioHandle);
-    public void Update(double deltaTime);
+    public void Update(double deltaTime, ConsoleKey UserInputKey);
     public void Render();
     public void Exit();
   }

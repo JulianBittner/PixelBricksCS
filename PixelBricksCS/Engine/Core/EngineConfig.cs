@@ -7,7 +7,7 @@ namespace PixelBricksCS.Engine.Core
   internal static class EngineConfig
   {
     // Grafics
-    public static readonly GridSize GameConsoleSize = new(40, 80);
+    public static readonly GridSize GameConsoleSize = new(40, 82);
     public const int FramesPerSecond = 60;
 
     // Audio

@@ -11,8 +11,8 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 - [x] Game loop: fixed update rate, delta time, input polling, render call
 - [x] State interface (IGameState: HandleInput, Update, Render) + state switching
 - [x] Game Sound: A sounds system plays sound and jingles  
-- [ ] ConsoleInput: non-blocking key polling
-- [ ] Player: holds key bindings (key → action); active state decides what each action does
+- [x] ConsoleInput: non-blocking key polling
+- [x] Player: holds key bindings (key → action); active state decides what each action does
 
 ## 2. Core Gameplay
 - [ ] Board: grid data structure (10×20), occupied/free cells

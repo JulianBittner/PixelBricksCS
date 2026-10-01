@@ -2,21 +2,25 @@
 using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Engine.StateMachine;
 using PixelBricksCS.Game;
+using PixelBricksCS.Game.Menu;
 using PixelBricksCS.Game.SplashScreen;
-using PixelBricksCS.Sandbox;
 
 class Program
 {
   static void Main()
   {
-    GameLoop<DemoStateID> pixelBricks = new(initialState: DemoStateID.SplashScreen);
+    GameLoop<GameStateID> pixelBricks = new(initialState: GameStateID.SplashScreen);
 
     SplashScreen splashScreen = new(GameMetadata.GameTitle, GameMetadata.GameTitleColors);
     pixelBricks.RegisterEngineState(splashScreen);
 
-    RenderingDemo renderingDemoState = new();
-    renderingDemoState.Init();
-    pixelBricks.RegisterEngineState(renderingDemoState);
+    MenuScreen menuScreen = new();
+    menuScreen.Init();
+    pixelBricks.RegisterEngineState(menuScreen);
+
+    ExitScreen exitScreen = new();
+    exitScreen.Init();
+    pixelBricks.RegisterEngineState(exitScreen);
 
     pixelBricks.Run();
   }

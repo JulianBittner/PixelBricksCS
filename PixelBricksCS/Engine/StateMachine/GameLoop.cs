@@ -2,7 +2,7 @@
 using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Engine.Rendering;
-using PixelBricksCS.Sandbox;
+using SimpleEngineCS;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -44,7 +44,7 @@ namespace PixelBricksCS.Engine.StateMachine
       _frameTimer.Start();
 
       while (!_exitGameLoop) {
-        _currentState.Update(_deltaTime);
+        _currentState.Update(_deltaTime, UserInput.Poll());
         _currentState.Render();
         GameConsole.Present(_currentState.TargetBuffer);
 
