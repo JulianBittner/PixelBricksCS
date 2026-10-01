@@ -18,7 +18,7 @@ namespace PixelBricksCS.Game
     private IContextHandle<GameStateID> _contextHandle = null!;
     private IAudioHandle _audioHandle = null!;
 
-    CountdownTimer _waitTimer = new(milliseconds: 1000);
+    CountdownTimer _waitTimer = new(Seconds: 1.0);
 
     public ExitScreen() {
       _renderer = new(_frameBuffer);

@@ -13,7 +13,7 @@ namespace PixelBricksCS.Engine.Core
     // Audio
     public const double MasterSoundVolume = 1.0;
     public const double MusikVolume       = 0.1 * MasterSoundVolume;
-    public const double MenuSoundVolume   = 0.2 * MasterSoundVolume;
+    public const double MenuSoundVolume   = 0.15 * MasterSoundVolume;
     public const double GameSoundVolume   = 0.2 * MasterSoundVolume;
 
     // Debugging

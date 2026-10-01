@@ -1,9 +1,12 @@
-﻿using PixelBricksCS.Engine.Assets.Sounds;
+using NAudio.Wave;
+using PixelBricksCS.Engine.Assets.Sounds;
 using PixelBricksCS.Engine.Audio;
 using PixelBricksCS.Engine.Composing;
 using PixelBricksCS.Engine.Core;
+using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Engine.StateMachine;
+using PixelBricksCS.Game.Assets.Sounds;
 using PixelBricksCS.Game.Assets.Sprites;
 using System;
 using System.Collections.Generic;
@@ -64,11 +67,11 @@ namespace PixelBricksCS.Game.Menu
     void IEngineState<GameStateID>.Enter(IContextHandle<GameStateID> contextHandle, IAudioHandle audioHandle) {
       _contextHandle = contextHandle;
       _audioHandle = audioHandle;
-      _audioHandle.PlaySound(StockMusicFactory.CreateMenuMusik1(0.2));
+      _audioHandle.PlayMusicLoop(new GameMusicTrack1());
     }
 
     void IEngineState<GameStateID>.Exit() {
-      // do nothing
+      _audioHandle.StopMusicLoop();
     }
 
     void IEngineState<GameStateID>.Render() {
@@ -78,14 +81,14 @@ namespace PixelBricksCS.Game.Menu
     void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey userInputKey) {
       switch (MenuInputMapper.ToAction(userInputKey)) {
         case MenuAction.MoveUp:
-          _audioHandle.PlaySound(StockSoundsFactory.CreateBlipType1());
+          _audioHandle.PlaySound(StockMenuSounds.CreateCursorBlip());
           if (_selectedIndex == 0) return;
           _selectedIndex--;
           _arrowComposer.Sprite = _arrows[_selectedIndex];
           return;
 
         case MenuAction.MoveDown:
-          _audioHandle.PlaySound(StockSoundsFactory.CreateBlipType1());
+          _audioHandle.PlaySound(StockMenuSounds.CreateCursorBlip());
           if (_selectedIndex >= _arrows.Length -1) return;
           _selectedIndex ++;
           _arrowComposer.Sprite = _arrows[_selectedIndex];
@@ -102,13 +105,13 @@ namespace PixelBricksCS.Game.Menu
     private void ActivateSelectedItem() {
       switch ((MenuItem)_selectedIndex) {
         case MenuItem.Play:
-          _audioHandle.PlaySound(StockSoundsFactory.CreateBlipType1());
+          _audioHandle.PlaySound(StockMenuSounds.CreateDenialBlip());
           break;
         case MenuItem.Credits:
-          _audioHandle.PlaySound(StockSoundsFactory.CreateBlip3());
+          _audioHandle.PlaySound(StockMenuSounds.CreateDenialBlip());
           break;
         case MenuItem.Exit:
-          _audioHandle.PlaySound(StockSoundsFactory.CreateBlipType1());
+          _audioHandle.PlaySound(StockMenuSounds.CreateConfirmationBlip());
           _contextHandle.RequestStateChange(GameStateID.ExitScreen);
           break;
         default:

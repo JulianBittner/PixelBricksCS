@@ -23,8 +23,8 @@ namespace PixelBricksCS.Game.SplashScreen
     private string _splashTitle;
     private CellColor[] _colors;
 
-    private CountdownTimer _animationTimer = new(milliseconds: 20);
-    private CountdownTimer _delayTimer = new(milliseconds: 1000);
+    private CountdownTimer _animationTimer = new(Seconds: 0.020);
+    private CountdownTimer _delayTimer = new(Seconds: 1.0);
 
     GameStateID IEngineState<GameStateID>.StateID => GameStateID.SplashScreen;
 
@@ -45,7 +45,7 @@ namespace PixelBricksCS.Game.SplashScreen
       _animation = GetAnimationSequence();
       _animation.MoveNext();
       _lastComposer = _animation.Current;
-      audioHandle.PlaySound(SplashScreenSounds.CreateSplashScreenPling(EngineConfig.MenuSoundVolume));
+      audioHandle.PlaySound(SplashScreenSound.CreateSplashScreenPling(EngineConfig.MenuSoundVolume));
     }
 
     void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey userInputKey) {     

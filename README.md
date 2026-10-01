@@ -4,7 +4,7 @@ A falling-block puzzle game for the console, written in C# (.NET).
 
 ## About
 
-PixelBricks is a learning project. The goal is to learn C# itself, and to understand and implement the core concepts of game programming from scratch — a custom console rendering pipeline, a composing system, a state machine, a frame-timed game loop, and procedurally generated sound and music.
+PixelBricks is a learning project. The goal is to learn C# itself, and to understand and implement the core concepts of game programming from scratch — a custom console rendering pipeline, a composing system, a state machine, a frame-timed game loop, user input handling, and procedurally generated sound and music.
 
 The only external dependency is [NAudio](https://github.com/naudio/NAudio), used solely to send audio to the sound card. Everything above that layer — sound effects, music, mixing — is generated in code from note data.
 
@@ -33,15 +33,24 @@ The audio pipeline turns note data into sound:
 Note data → Voices → Mixer → AudioPlayer → Sound card
 ```
 
-- **Sound & music factories** — build sound effects and multi-voice tracks (melody, bass, harmony) from notes and durations.
-- **AudioPlayer** — keeps a single persistent mixer running, so sounds and music can be triggered fire-and-forget without blocking the game loop.
+- **Sounds & music tracks** — sound effects and multi-voice tracks (melody, bass, harmony) are built from notes and durations. Music tracks create a fresh stream on each restart, so they can loop.
+- **AudioPlayer** — runs two persistent outputs: a low-latency channel for sound effects and a larger-buffered channel for crackle-free music. Both are triggered fire-and-forget without blocking the game loop.
 
-The **game loop** drives interchangeable states (via a state machine) frame by frame, using a frame timer to cap the frame rate and provide delta time.
+The input pipeline turns key presses into game actions:
+
+```
+Keyboard → UserInput → ConsoleKey → Input mapper → Action → State logic
+```
+
+- **UserInput** — polls the keyboard once per frame without blocking the loop.
+- **Input mappers** — the engine only delivers raw keys; game-specific mappers translate them into actions, keeping the engine free of game controls.
+
+The **game loop** drives interchangeable states (via a state machine) frame by frame, using a frame timer to cap the frame rate and provide delta time. It polls the input and passes it to the active state.
 
 ## Project Structure
 
 ```
-Engine/    Reusable engine tech (rendering, composing, audio, state machine)
+Engine/    Reusable engine tech (rendering, composing, audio, input, state machine)
 Game/      Game-specific content (screens, assets, game data)
 Sandbox/   Demos and experiments
 docs/      Project planning and diagrams

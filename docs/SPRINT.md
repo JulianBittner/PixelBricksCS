@@ -28,8 +28,8 @@ The first interactive screen after the splash screen.
 - [x] The selection moves between the buttons with the arrow keys and is highlighted
 - [x] Confirming Play plays the error sound (game not available yet)
 - [x] Confirming Exit switches to the exit screen
-- [ ] Plays music in a loop
-- [ ] Music stops, if Menu leavs to another context-state
+- [x] Plays music in a loop
+- [x] Music stops, if Menu leavs to another context-state
 
 ### ExitScreen: clean shutdown
 Shown when leaving the program, before the loop ends.
@@ -41,4 +41,4 @@ Shown when leaving the program, before the loop ends.
 ---
 
 ## Definition of Done (Sprint)
-- [ ] Running the program plays the splash screen, opens the menu, plays the error sound on Play, and exits cleanly via the Exit button and exit screen.
+- [x] Running the program plays the splash screen, opens the menu, plays the error sound on Play, and exits cleanly via the Exit button and exit screen.

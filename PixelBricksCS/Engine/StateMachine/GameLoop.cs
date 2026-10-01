@@ -37,13 +37,15 @@ namespace PixelBricksCS.Engine.StateMachine
       GameConsole.InitConsole();
 
       _audioPlayer.Init();
-      _audioPlayer.Start();
+      _audioPlayer.Open();
 
       _currentState = _states[_nextStateID];
       _currentState.Enter(contextHandle: this, audioHandle: _audioPlayer);
       _frameTimer.Start();
 
       while (!_exitGameLoop) {
+        _audioPlayer.UpdateMusicLoop(_deltaTime);
+
         _currentState.Update(_deltaTime, UserInput.Poll());
         _currentState.Render();
         GameConsole.Present(_currentState.TargetBuffer);
