@@ -8,11 +8,15 @@ namespace PixelBricksCS.Game
   internal static class GameMetadata
   {
     public static string GameTitle = "PIXELBRICKS";
-    public static CellColor[] GameTitleColors = [
+    public static readonly CellColor[] GameTitleColors = [
       CellColor.BrightRed,
+      CellColor.BrightYellow,
       CellColor.BrightGreen,
-      CellColor.Yellow,
+      CellColor.BrightCyan,
+      CellColor.BrightBlue,
       CellColor.BrightMagenta
-      ];
+    ];
+
+    public static CellColor TitleColor = CellColor.Cyan;
   }
 }

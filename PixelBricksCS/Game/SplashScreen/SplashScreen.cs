@@ -6,16 +6,15 @@ using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Engine.StateMachine;
 using PixelBricksCS.Game.Assets.Sounds;
-using PixelBricksCS.Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PixelBricksCS.Game.SplashScreen
 {
-  internal class SplashScreen : IEngineState<DemoStateID>
+  internal class SplashScreen : IEngineState<GameStateID>
   {
-    private IContextHandle<DemoStateID> _contextHandle = null!;
+    private IContextHandle<GameStateID> _contextHandle = null!;
 
     private readonly Renderer _renderer;
     private LetterAnimationComposer _lastComposer = null!;
@@ -24,12 +23,12 @@ namespace PixelBricksCS.Game.SplashScreen
     private string _splashTitle;
     private CellColor[] _colors;
 
-    private CountdownTimer _animationTimer = new(milliseconds: 20);
-    private CountdownTimer _delayTimer = new(milliseconds: 1000);
+    private CountdownTimer _animationTimer = new(Seconds: 0.020);
+    private CountdownTimer _delayTimer = new(Seconds: 1.0);
 
-    DemoStateID IEngineState<DemoStateID>.StateID => DemoStateID.SplashScreen;
+    GameStateID IEngineState<GameStateID>.StateID => GameStateID.SplashScreen;
 
-    FrameBuffer IEngineState<DemoStateID>.TargetBuffer => _renderer.TargetBuffer;
+    FrameBuffer IEngineState<GameStateID>.TargetBuffer => _renderer.TargetBuffer;
 
     public SplashScreen(string splashTitle, CellColor[] colors) {
       _splashTitle = splashTitle;
@@ -38,18 +37,18 @@ namespace PixelBricksCS.Game.SplashScreen
       var animation = GetAnimationSequence();
     }
 
-    void IEngineState<DemoStateID>.Enter(
-      IContextHandle<DemoStateID> contextHandle, 
+    void IEngineState<GameStateID>.Enter(
+      IContextHandle<GameStateID> contextHandle, 
       IAudioHandle audioHandle) 
     {
       _contextHandle = contextHandle;
       _animation = GetAnimationSequence();
       _animation.MoveNext();
       _lastComposer = _animation.Current;
-      audioHandle.PlaySound(SplashScreenSounds.CreateSplashScreenPling(EngineConfig.MenuSoundVolume));
+      audioHandle.PlaySound(SplashScreenSound.CreateSplashScreenPling(EngineConfig.MenuSoundVolume));
     }
 
-    void IEngineState<DemoStateID>.Update(double deltaTime) {     
+    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey userInputKey) {     
       if (!_lastComposer.AnimationFinished) {
         if (!_animationTimer.TimeUp(deltaTime)) return;
         _animation.MoveNext();
@@ -59,7 +58,7 @@ namespace PixelBricksCS.Game.SplashScreen
       }
       
       if (_delayTimer.TimeUp(deltaTime)) {
-        _contextHandle.RequestStateChange(DemoStateID.Demo);
+        _contextHandle.RequestStateChange(GameStateID.Menu);
       }      
     }
 
@@ -84,11 +83,11 @@ namespace PixelBricksCS.Game.SplashScreen
       }
     }    
 
-    void IEngineState<DemoStateID>.Render() {
+    void IEngineState<GameStateID>.Render() {
       _renderer.RenderDynamicContent();
     }
 
-    void IEngineState<DemoStateID>.Exit() {
+    void IEngineState<GameStateID>.Exit() {
       // do nothing
     }
   }

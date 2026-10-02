@@ -52,5 +52,13 @@ namespace PixelBricksCS.Engine.Audio
 
       return new ConcatenatingSampleProvider(providers);
     }
+
+    public static double GetDurationSeconds((double Freq, int Ms)[] notes) {
+      int totalMs = 0;
+      foreach (var note in notes) {
+        totalMs += note.Ms;
+      }
+      return totalMs / 1000.0;
+    }
   }
 }

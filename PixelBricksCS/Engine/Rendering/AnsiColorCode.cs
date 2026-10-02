@@ -39,7 +39,7 @@ namespace PixelBricksCS.Engine.Rendering
       CellColor.Magenta => Magenta,
       CellColor.Cyan => Cyan,
       CellColor.White => White,
-      CellColor.BrightBlack => BrightBlack,
+      CellColor.Gray => BrightBlack,
       CellColor.BrightRed => BrightRed,
       CellColor.BrightGreen => BrightGreen,
       CellColor.BrightYellow => BrightYellow,

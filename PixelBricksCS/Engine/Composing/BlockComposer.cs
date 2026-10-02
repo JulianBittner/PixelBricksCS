@@ -8,8 +8,13 @@ namespace PixelBricksCS.Engine.Composing
 {
   internal class BlockComposer : IComposer
   {
-    private readonly CharSprite _sprite;
+    private CharSprite _sprite;
     private readonly CellColor _color;
+
+    public CharSprite Sprite {
+      get { return _sprite; }
+      set { _sprite = value; }
+    }
 
     public BlockComposer(CharSprite sprite, CellColor color = CellColor.Default) {
       _sprite = sprite;

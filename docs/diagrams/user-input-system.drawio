@@ -1,0 +1,52 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.8 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.8">
+  <diagram name="Seite-1" id="uVmpz9GciXF-oaZUbCxt">
+    <mxGraphModel dx="989" dy="577" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Eynktt1q-_vZfjmeWuom-1" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;User Input System&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="80" y="20" width="900" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-11" value="GameLoop" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;verticalAlign=top;align=left;" parent="1" vertex="1">
+          <mxGeometry x="240" y="80" width="720" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-10" value="EngineState" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=left;" parent="1" vertex="1">
+          <mxGeometry x="520" y="120" width="420" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="GL5P1jmQvBG8D8-gNgot-1" target="ik6KfTnPj-NN04414R96-13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GL5P1jmQvBG8D8-gNgot-1" value="Keyboard" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="100" y="150" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="GL5P1jmQvBG8D8-gNgot-3" target="GL5P1jmQvBG8D8-gNgot-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GL5P1jmQvBG8D8-gNgot-3" value="InputMapper" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="540" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="GL5P1jmQvBG8D8-gNgot-6" target="ik6KfTnPj-NN04414R96-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GL5P1jmQvBG8D8-gNgot-6" value="Action" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
+          <mxGeometry x="690" y="160" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="ik6KfTnPj-NN04414R96-1" target="GL5P1jmQvBG8D8-gNgot-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-1" value="ConsoleKey" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
+          <mxGeometry x="410" y="160" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-4" value="StateLogic" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="800" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="ik6KfTnPj-NN04414R96-13" target="ik6KfTnPj-NN04414R96-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ik6KfTnPj-NN04414R96-13" value="UserInput.Poll()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="260" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

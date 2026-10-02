@@ -1,44 +1,44 @@
-# Sprint 5 – Animated splash screen and audio
+# Sprint 6 – User input and main menu
 
-**Goal:** Show an animated block-letter title screen with sound on startup, then hand off to the demo state.
+**Goal:** React to player input and navigate from a main menu to a clean program exit.
 
 ---
 
 ## Tasks
 
-### SplashScreen: animated title intro
-Plays once on startup, animating the game title, then switches to the demo state.
+### UserInput: non-blocking key polling
+Reads keyboard input once per frame without stopping the game loop.
 **Done when:**
-- [x] Letters drop in from above the screen, each starting slightly after the previous one (staggered, overlapping)
-- [x] Each letter overshoots its resting position slightly, then snaps back up into place
-- [x] Each letter has its own color
-- [x] The full animation runs for roughly 2 seconds
-- [x] A startup pling plays during the animation without blocking it
-- [x] After the animation finishes, the screen holds for about one second, then switches to the demo state
+- [x] Poll() returns the pressed key without blocking the loop
+- [x] The console input buffer is drained each frame, so held keys don't lag behind
+- [x] GameLoop passes the polled key to the active state via Update
 
-### GameMetadata: central game title and colors
-Holds the game title string and its per-letter colors, so the splash screen and later screens share one source.
+### Player: key bindings
+Translates raw keys into game actions, so states work with actions instead of keys.
 **Done when:**
-- [x] Provides the game title as text
-- [x] Provides the colors used for the title lettering
+- [x] Presses a key → action mapping
+- [x] Keys without a binding are ignored
+- [x] The active state decides what each action does
 
-### AudioPlayer: mixer-based audio output
-A single global audio output, so sounds can be triggered at any time without re-initializing playback.
+### MenuScreen: main menu
+The first interactive screen after the splash screen.
 **Done when:**
-- [x] One WaveOutEvent keeps running with a MixingSampleProvider that outputs silence when idle
-- [x] Sounds are started fire-and-forget and never block the game loop
-- [x] Multiple sounds can play at the same time
-- [x] States access audio through IAudioHandle, integrated via IEngineState and GameLoop
+- [x] The splash screen hands off to the menu instead of the demo state
+- [x] Shows a Play and an Credits button with an Exit button below it
+- [x] The selection moves between the buttons with the arrow keys and is highlighted
+- [x] Confirming Play plays the error sound (game not available yet)
+- [x] Confirming Exit switches to the exit screen
+- [x] Plays music in a loop
+- [x] Music stops, if Menu leavs to another context-state
 
-### Procedural sounds and music
-Sounds and tracks are generated from note data instead of audio files.
+### ExitScreen: clean shutdown
+Shown when leaving the program, before the loop ends.
 **Done when:**
-- [x] Notes (C2–B6) and NoteDurations define pitches and lengths
-- [x] MusicComposerUtils builds multi-voice tracks (melody, bass, harmony)
-- [x] StockSoundsFactory and StockMusicFactory ship generic sounds and tracks with the engine
-- [x] GameSoundsFactory and GameMusicFactory provide the game-specific sounds and tracks
+- [x] Shows a short goodbye screen
+- [x] Requests shutdown after a brief delay
+- [x] The console is left in a clean state after the program ends
 
 ---
 
 ## Definition of Done (Sprint)
-- [x] Running the program plays the title animation with its startup sound, holds briefly, then transitions into the demo state.
+- [x] Running the program plays the splash screen, opens the menu, plays the error sound on Play, and exits cleanly via the Exit button and exit screen.

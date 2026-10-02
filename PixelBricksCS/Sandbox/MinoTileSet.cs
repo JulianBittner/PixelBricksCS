@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PixelBricksCS.Game.Assets
+namespace PixelBricksCS.Sandbox
 {
   internal class MinoTileSet : ITileSet<MinoID>
   {
