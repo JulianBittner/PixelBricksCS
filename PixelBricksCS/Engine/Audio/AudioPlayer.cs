@@ -1,9 +1,6 @@
 ﻿using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using PixelBricksCS.Engine.StateMachine;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PixelBricksCS.Engine.Audio
 {
@@ -43,6 +40,7 @@ namespace PixelBricksCS.Engine.Audio
     }
 
     void IAudioHandle.PlayMusicLoop(IMusicTrack musicTrack) {
+      _musicTimer.Reset();
       _currentMusicTrack = musicTrack;
       _musicTimer.SetDurationSeconds(_currentMusicTrack.DurationSeconds);
       _musicMixer.AddMixerInput(_currentMusicTrack.CreateTrack());
