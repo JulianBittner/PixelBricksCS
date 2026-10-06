@@ -18,6 +18,6 @@ namespace PixelBricksCS.Engine.Core
 
     // Debugging
     public const bool DiagnosticsOverlayEnabled = true;
-    public const int  DebugOverlayRaw = 30;
+    public const int  DebugOverlayRaw = 32;
   }
 }

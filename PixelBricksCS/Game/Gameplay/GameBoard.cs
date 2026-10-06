@@ -21,8 +21,8 @@ namespace PixelBricksCS.Game.Gameplay
       }
     }
 
-    public int Height => 20;
-    public int Width => 14;
+    public int Height => GameMetadata.BoardHeight;
+    public int Width => GameMetadata.BoardWidth;
 
     public BrickID this[int y, int x] => _grid[y, x];
 

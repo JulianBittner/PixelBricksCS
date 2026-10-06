@@ -24,7 +24,7 @@ namespace PixelBricksCS.Game.SplashScreen
     private CellColor[] _colors;
 
     private CountdownTimer _animationTimer = new(Seconds: 0.020);
-    private CountdownTimer _delayTimer = new(Seconds: 1.0);
+    private CountdownTimer _delayTimer = new(Seconds: 0.5);
 
     GameStateID IEngineState<GameStateID>.StateID => GameStateID.SplashScreen;
 

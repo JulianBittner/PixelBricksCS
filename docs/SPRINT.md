@@ -28,9 +28,9 @@ Defines the occupied cells of every brick in every rotation.
 ### Brick composing: drawing the active brick
 Draws the current brick on top of the board.
 **Done when:**
-- [ ] The board is drawn through BrickTileSet
-- [ ] The active brick is drawn at its position on the board, in its own color
-- [ ] Empty cells of the brick body don't overwrite the board underneath
+- [x] The board is drawn through BrickTileSet
+- [x] The active brick is drawn at its position on the board, in its own color
+- [x] Empty cells of the brick body don't overwrite the board underneath
 
 ### Horizontal movement
 The player can move the active brick sideways.
