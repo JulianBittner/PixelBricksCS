@@ -31,10 +31,10 @@ namespace PixelBricksCS.Engine.Composing
       for (int y = 0; y < _map.Height; y++) {
         for (int x = 0; x < _map.Width; x++) {
           T tileID = _map[y, x];
-          frameBuffer[y + position.Y, ((x + position.X)*2)    ] = 
+          frameBuffer[y + position.Y,  x * 2  + position.X ] = 
             new(_set[tileID].Symbol0, 
                 _set[tileID].Color);
-          frameBuffer[y + position.Y, ((x + position.X)*2) + 1] = 
+          frameBuffer[y + position.Y, (x * 2) + 1 + position.X] = 
             new(_set[tileID].Symbol1, 
                 _set[tileID].Color);
         }
