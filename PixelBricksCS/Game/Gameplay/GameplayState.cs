@@ -1,4 +1,5 @@
-﻿using PixelBricksCS.Engine.Audio;
+﻿using PixelBricksCS.Engine.Assets.Sounds;
+using PixelBricksCS.Engine.Audio;
 using PixelBricksCS.Engine.Composing;
 using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Diagnostics;
@@ -6,6 +7,7 @@ using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Engine.StateMachine;
 using PixelBricksCS.Game.Assets.Sounds;
 using PixelBricksCS.Game.Assets.Sprites;
+using PixelBricksCS.Game.Gameplay.Actions;
 using PixelBricksCS.Game.Gameplay.Bricks;
 using System;
 using System.Collections.Generic;
@@ -22,10 +24,12 @@ namespace PixelBricksCS.Game.Gameplay
     private IAudioHandle _audioHandle = null!;
 
     private GameBoard _board = new();
-    private Brick _currentBrick = new(BrickID.I);
+    private Brick _currentBrick = new(BrickID.Z);
+    private GameController _gameController;
 
     public GameplayState() {
       _renderer = new(_frameBuffer);
+      _gameController = new GameController(_board);
     }
 
     GameStateID IEngineState<GameStateID>.StateID => GameStateID.Gameplay;
@@ -69,8 +73,28 @@ namespace PixelBricksCS.Game.Gameplay
       _renderer.RenderDynamicContent();
     }
 
-    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey UserInputKey) {
-      ValueTracer.TraceValue("Delta Time: ", deltaTime.ToString());
+    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey userInputKey) {
+      GameAction action = GameInputMapper.ToAction(userInputKey);
+      if (action == GameAction.None) return;
+
+      ActionResult actionResult = _gameController.Apply(_currentBrick, action);
+      PlayActionSound(actionResult);
+    }
+
+    private void PlayActionSound(ActionResult result) {
+      switch (result) {
+        case ActionResult.Moved:
+          _audioHandle.PlaySound(GameSounds.CreateMove());
+          break;
+        case ActionResult.Rotated:
+          _audioHandle.PlaySound(GameSounds.CreateRotate());
+          break;
+        case ActionResult.Blocked:
+          _audioHandle.PlaySound(StockMenuSounds.CreateDenialBlip());
+          break;
+        default:
+          break;
+      }
     }
   }
 }

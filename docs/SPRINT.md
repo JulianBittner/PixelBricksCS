@@ -35,10 +35,10 @@ Draws the current brick on top of the board.
 ### Horizontal movement
 The player can move the active brick sideways.
 **Done when:**
-- [ ] A gameplay input mapper translates keys into gameplay actions
-- [ ] Left and right move the brick by one column
+- [x] A gameplay input mapper translates keys into gameplay actions
+- [x] Left and right move the brick by one column
 
 ---
 
 ## Definition of Done (Sprint)
-- [ ] Choosing Play in the menu shows the board with a brick that can be moved left and right.
+- [x] Choosing Play in the menu shows the board with a brick that can be moved left and right.

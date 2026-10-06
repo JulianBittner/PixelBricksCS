@@ -136,13 +136,15 @@ namespace PixelBricksCS.Game.Assets.Sounds
     public static ISampleProvider CreateMove(double volume = EngineConfig.MenuSoundVolume) {
       SignalGenerator gen = new(SampleRate, Channel1) {
         Gain = volume,
-        Frequency = Notes.A3,
-        Type = SignalGeneratorType.Triangle };
+        Frequency = Notes.C5,
+        Type = SignalGeneratorType.Triangle
+      };
       OffsetSampleProvider cut = new(gen) {
-        Take = TimeSpan.FromMilliseconds(20) };
+        Take = TimeSpan.FromMilliseconds(45)
+      };
 
       FadeInOutSampleProvider sound = new(cut);
-      sound.BeginFadeOut(20);
+      sound.BeginFadeOut(45);
 
       return sound;
     }

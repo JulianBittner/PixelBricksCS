@@ -16,10 +16,10 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 
 ## 2. Core Gameplay
 - [x] Board: grid data structure (14×20), occupied/free cells
-- [ ] Bricks: grid data model (cells, position, color)
-- [ ] Bricks shape definitions (7 pieces: I, O, T, S, Z, J, L)
-- [ ] Brick composer (composes the current Brick to the field)
-- [ ] The current brick can be moved left and right
+- [x] Bricks: grid data model (cells, position, color)
+- [x] Bricks shape definitions (7 pieces: I, O, T, S, Z, J, L)
+- [x] Brick composer (composes the current Brick to the field)
+- [x] The current brick can be moved left and right
 - [ ] Spawning: new piece appears at top of the board
 - [ ] Gravity: piece falls automatically at a fixed interval
 

@@ -7,6 +7,8 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
 {
   internal class Brick
   {
+    private static readonly int RotationCount = Enum.GetValues<Rotation>().Length;
+
     private BrickBody _body;
     private BrickID _brickID = BrickID.None;
     private GridPosition _position;
@@ -27,5 +29,17 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
     public BrickID ID => _brickID;
     public BrickShape Shape => _body[(int)_rotation];
     public GridPosition Position => _position;
+
+    public void MoveLeft() =>
+      _position = _position.WithOffset(0, -1);
+
+    public void MoveRight() =>
+      _position = _position.WithOffset(0, +1);
+
+    public void RotateClockwise() => 
+      _rotation = (Rotation)(((int)_rotation+1) % 4);
+
+    public void RotateCounterClockwise() => 
+      _rotation = (Rotation)(((int)_rotation+1+ RotationCount) % 4);
   }
 }
