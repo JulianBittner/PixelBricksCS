@@ -15,14 +15,13 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 - [x] Player: holds key bindings (key → action); active state decides what each action does
 
 ## 2. Core Gameplay
-- [ ] Board: grid data structure (10×20), occupied/free cells
-- [ ] Board composer (composes the playing field region incl. border; renderer assembles composed regions)
-- [ ] Tetromino: data model (cells, position, color)
-- [ ] Tetromino shape definitions (all 7 pieces: I, O, T, S, Z, J, L)
+- [x] Board: grid data structure (14×20), occupied/free cells
+- [ ] Bricks: grid data model (cells, position, color)
+- [ ] Bricks shape definitions (7 pieces: I, O, T, S, Z, J, L)
+- [ ] Brick composer (composes the current Brick to the field)
+- [ ] The current brick can be moved left and right
 - [ ] Spawning: new piece appears at top of the board
 - [ ] Gravity: piece falls automatically at a fixed interval
-- [ ] Collision detection (walls, floor, locked blocks)
-- [ ] Locking: piece freezes into the board when it lands
 
 ## 3. Player Controls (in-game)
 - [ ] Sideways movement (left/right)
