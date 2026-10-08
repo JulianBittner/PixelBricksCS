@@ -1,4 +1,5 @@
 ﻿using PixelBricksCS.Engine.Core;
+using PixelBricksCS.Game.Assets;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,10 +20,6 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
       _body = BrickBodySet.Get(brickID);
       int startPositionY = GameMetadata.BoardHeight - _body.Height;
       int startPositionX = (GameMetadata.BoardWidth /2) - (_body.Width / 2);
-      if (brickID  == BrickID.I) {
-        startPositionX--;
-        startPositionY--;
-      }
       _position = new GridPosition(startPositionY, startPositionX);
     }
 
@@ -41,10 +38,14 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
     public BrickPreview PreviewMoveRight() =>
       new(Shape, _position.WithOffset(0, +1), _rotation);
 
-    public BrickPreview PreviewRotateLeft() =>
-      new(Shape, _position, (BrickRotation)(((int)_rotation + 1) % 4));
+    public BrickPreview PreviewRotateLeft() {
+      BrickRotation previewRotation = (BrickRotation)(((int)_rotation + 1) % RotationCount);
+      return new(_body[(int)previewRotation], _position, previewRotation);
+    }
 
-    public BrickPreview PreviewRotateRight() =>
-      new(Shape, _position, (BrickRotation)(((int)_rotation -1 +RotationCount) % 4));
+    public BrickPreview PreviewRotateRight() {
+      BrickRotation previewRotation = (BrickRotation)(((int)_rotation + 1) % RotationCount);
+      return new(_body[(int)previewRotation], _position, previewRotation);
+    }
   }
 }

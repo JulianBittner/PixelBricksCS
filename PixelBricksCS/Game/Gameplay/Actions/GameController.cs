@@ -23,21 +23,33 @@ namespace PixelBricksCS.Game.Gameplay.Actions
 
     private ActionResult MoveLeft(Brick brick) {
       BrickPreview preview = brick.PreviewMoveLeft();
+      if (GameMechanics.Collides(_gameBoard, preview)) 
+        return ActionResult.Blocked;
+
       brick.ApplyPreview(preview);
       return ActionResult.Moved;
     }
     private ActionResult MoveRight(Brick brick) {
       BrickPreview preview = brick.PreviewMoveRight();
+      if (GameMechanics.Collides(_gameBoard, preview))
+        return ActionResult.Blocked;
+
       brick.ApplyPreview(preview);
       return ActionResult.Moved;
     }
     private ActionResult RotateLeft(Brick brick) {
       BrickPreview preview = brick.PreviewRotateLeft();
+      if (GameMechanics.Collides(_gameBoard, preview))
+        return ActionResult.Blocked;
+
       brick.ApplyPreview(preview);
       return ActionResult.Rotated;
     }
     private ActionResult RotateRight(Brick brick) {
       BrickPreview preview = brick.PreviewRotateRight();
+      if (GameMechanics.Collides(_gameBoard, preview))
+        return ActionResult.Blocked;
+
       brick.ApplyPreview(preview);
       return ActionResult.Rotated;
     }

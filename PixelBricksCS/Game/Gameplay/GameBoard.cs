@@ -10,15 +10,6 @@ namespace PixelBricksCS.Game.Gameplay
 
     public GameBoard() {
       _grid = new BrickID[Height, Width];
-
-      for (int y = 0; y < Height; y++) {
-        for (int x = 0; x < Width; x++) {
-          if ((y+x) % 2 == 0) 
-            _grid[y, x] = BrickID.T;
-          else
-            _grid[y, x] = BrickID.L;
-        }
-      }
     }
 
     public int Height => GameMetadata.BoardHeight;

@@ -1,4 +1,7 @@
-﻿namespace PixelBricksCS.Game.Gameplay.Bricks
+﻿using PixelBricksCS.Game.Gameplay;
+using PixelBricksCS.Game.Gameplay.Bricks;
+
+namespace PixelBricksCS.Game.Assets
 {
   // Shapes are indexed [y, x]. Each occupied cell holds the brick's ID, empty cells are None.
   internal static class BrickBodySet
