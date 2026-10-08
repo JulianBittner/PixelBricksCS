@@ -9,6 +9,7 @@ namespace PixelBricksCS.Game.Gameplay.Actions
     None = 0,
     MoveLeft,
     MoveRight,
-    
+    RotateLeft,
+    RotateRight    
   }
 }

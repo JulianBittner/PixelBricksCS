@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PixelBricksCS.Game.Gameplay.Bricks
 {
-  internal enum Rotation
+  internal enum BrickRotation
   {
     Spawn = 0, 
     Right = 1, 

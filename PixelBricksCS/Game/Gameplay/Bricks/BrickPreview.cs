@@ -8,7 +8,7 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
   internal record struct BrickPreview(
     BrickShape Shape,
     GridPosition Position,
-    Rotation Rotation)
+    BrickRotation Rotation)
   {
   }
 }

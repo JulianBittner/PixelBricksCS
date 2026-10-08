@@ -9,6 +9,8 @@ namespace PixelBricksCS.Game.Gameplay.Actions
     public static GameAction ToAction(ConsoleKey key) => key switch {
       ConsoleKey.LeftArrow => GameAction.MoveLeft,
       ConsoleKey.RightArrow => GameAction.MoveRight,
+      ConsoleKey.UpArrow => GameAction.RotateRight,
+      ConsoleKey.DownArrow => GameAction.RotateLeft,
       _ => GameAction.None,
     };
   }

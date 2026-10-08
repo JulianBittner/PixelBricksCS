@@ -16,6 +16,8 @@ namespace PixelBricksCS.Game.Gameplay.Actions
     public ActionResult Apply(Brick brick, GameAction action) => action switch {
       GameAction.MoveLeft  => MoveLeft(brick),
       GameAction.MoveRight => MoveRight(brick),
+      GameAction.RotateLeft => RotateLeft(brick),
+      GameAction.RotateRight => RotateRight(brick),
       _ => ActionResult.None
     };
 
@@ -29,6 +31,15 @@ namespace PixelBricksCS.Game.Gameplay.Actions
       brick.ApplyPreview(preview);
       return ActionResult.Moved;
     }
-    
+    private ActionResult RotateLeft(Brick brick) {
+      BrickPreview preview = brick.PreviewRotateLeft();
+      brick.ApplyPreview(preview);
+      return ActionResult.Rotated;
+    }
+    private ActionResult RotateRight(Brick brick) {
+      BrickPreview preview = brick.PreviewRotateRight();
+      brick.ApplyPreview(preview);
+      return ActionResult.Rotated;
+    }
   }
 }
