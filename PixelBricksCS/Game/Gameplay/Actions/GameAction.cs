@@ -7,7 +7,8 @@ namespace PixelBricksCS.Game.Gameplay.Actions
   internal enum GameAction
   {
     None = 0,
-    Left,
-    Right
+    MoveLeft,
+    MoveRight,
+    
   }
 }

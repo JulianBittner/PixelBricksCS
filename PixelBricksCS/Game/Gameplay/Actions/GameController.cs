@@ -14,18 +14,21 @@ namespace PixelBricksCS.Game.Gameplay.Actions
     }
 
     public ActionResult Apply(Brick brick, GameAction action) => action switch {
-      GameAction.Left  => MoveLeft(brick),
-      GameAction.Right => MoveRight(brick),
+      GameAction.MoveLeft  => MoveLeft(brick),
+      GameAction.MoveRight => MoveRight(brick),
       _ => ActionResult.None
     };
 
     private ActionResult MoveLeft(Brick brick) {
-      brick.MoveLeft();
+      BrickPreview preview = brick.PreviewMoveLeft();
+      brick.ApplyPreview(preview);
       return ActionResult.Moved;
     }
     private ActionResult MoveRight(Brick brick) {
-      brick.MoveRight();
+      BrickPreview preview = brick.PreviewMoveRight();
+      brick.ApplyPreview(preview);
       return ActionResult.Moved;
     }
+    
   }
 }

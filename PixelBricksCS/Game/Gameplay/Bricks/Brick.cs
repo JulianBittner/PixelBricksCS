@@ -30,16 +30,21 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
     public BrickShape Shape => _body[(int)_rotation];
     public GridPosition Position => _position;
 
-    public void MoveLeft() =>
-      _position = _position.WithOffset(0, -1);
+    public void ApplyPreview(BrickPreview preview) {
+      _rotation = preview.Rotation;
+      _position = preview.Position;
+    }
 
-    public void MoveRight() =>
-      _position = _position.WithOffset(0, +1);
+    public BrickPreview PreviewMoveLeft() => 
+      new(Shape, _position.WithOffset(0, -1), _rotation);
 
-    public void RotateClockwise() => 
-      _rotation = (Rotation)(((int)_rotation+1) % 4);
+    public BrickPreview PreviewMoveRight() =>
+      new(Shape, _position.WithOffset(0, +1), _rotation);
 
-    public void RotateCounterClockwise() => 
-      _rotation = (Rotation)(((int)_rotation+1+ RotationCount) % 4);
+    public BrickPreview PreviewRotateLeft() =>
+      new(Shape, _position, (Rotation)(((int)_rotation + 1) % 4));
+
+    public BrickPreview PreviewRotateRight() =>
+      new(Shape, _position, (Rotation)(((int)_rotation -1 +RotationCount) % 4));
   }
 }

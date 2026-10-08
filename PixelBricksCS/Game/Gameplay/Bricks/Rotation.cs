@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PixelBricksCS.Game.Gameplay
+namespace PixelBricksCS.Game.Gameplay.Bricks
 {
   internal enum Rotation
   {

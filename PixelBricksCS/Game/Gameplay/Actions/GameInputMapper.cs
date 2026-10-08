@@ -7,8 +7,8 @@ namespace PixelBricksCS.Game.Gameplay.Actions
   internal static class GameInputMapper
   {
     public static GameAction ToAction(ConsoleKey key) => key switch {
-      ConsoleKey.LeftArrow => GameAction.Left,
-      ConsoleKey.RightArrow => GameAction.Right,
+      ConsoleKey.LeftArrow => GameAction.MoveLeft,
+      ConsoleKey.RightArrow => GameAction.MoveRight,
       _ => GameAction.None,
     };
   }
