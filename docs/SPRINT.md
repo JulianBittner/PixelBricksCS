@@ -9,18 +9,18 @@
 ### Rotation
 The player can rotate the brick.
 **Done when:**
-- [ ] The brick rotates clockwise
-- [ ] (Optional) The brick rotates counterclockwise
+- [x] The brick rotates clockwise
+- [x] (Optional) The brick rotates counterclockwise
 
 ### Collision
 The brick respects the boundaries of the board.
 **Done when:**
-- [ ] The brick cannot move through the board walls
+- [x] The brick cannot move through the board walls
 
 ### Wall kicks
 Rotating near walls or blocks shifts the brick if possible.
 **Done when:**
-- [ ] A rotation near a wall or block shifts the brick so the rotation fits, if possible
+- [x] A rotation near a wall or block shifts the brick so the rotation fits, if possible
 
 ### Hard drop
 **Done when:**

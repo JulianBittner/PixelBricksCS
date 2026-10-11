@@ -10,5 +10,9 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
     GridPosition Position,
     BrickRotation Rotation)
   {
+    public BrickPreview WithPositionOffset(int y, int x) {
+      GridPosition offsetPosition = new GridPosition(Position.Y + y, Position.X + x);
+      return new BrickPreview(Shape, offsetPosition, Rotation);
+    }
   }
 }

@@ -24,7 +24,7 @@ namespace PixelBricksCS.Game.Gameplay
     private IAudioHandle _audioHandle = null!;
 
     private GameBoard _board = new();
-    private Brick _currentBrick = new(BrickID.Z);
+    private Brick _currentBrick = new(BrickID.I);
     private GameController _gameController;
 
     public GameplayState() {

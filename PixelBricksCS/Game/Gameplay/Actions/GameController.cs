@@ -21,34 +21,27 @@ namespace PixelBricksCS.Game.Gameplay.Actions
       _ => ActionResult.None
     };
 
-    private ActionResult MoveLeft(Brick brick) {
-      BrickPreview preview = brick.PreviewMoveLeft();
-      if (GameMechanics.Collides(_gameBoard, preview)) 
-        return ActionResult.Blocked;
-
-      brick.ApplyPreview(preview);
-      return ActionResult.Moved;
-    }
-    private ActionResult MoveRight(Brick brick) {
-      BrickPreview preview = brick.PreviewMoveRight();
+    private ActionResult MoveLeft(Brick brick) => TryMove(brick, brick.PreviewMoveLeft());
+    private ActionResult MoveRight(Brick brick) => TryMove(brick, brick.PreviewMoveRight());
+    private ActionResult TryMove(Brick brick, BrickPreview preview) {
       if (GameMechanics.Collides(_gameBoard, preview))
         return ActionResult.Blocked;
 
       brick.ApplyPreview(preview);
       return ActionResult.Moved;
     }
-    private ActionResult RotateLeft(Brick brick) {
-      BrickPreview preview = brick.PreviewRotateLeft();
-      if (GameMechanics.Collides(_gameBoard, preview))
-        return ActionResult.Blocked;
 
-      brick.ApplyPreview(preview);
-      return ActionResult.Rotated;
-    }
-    private ActionResult RotateRight(Brick brick) {
-      BrickPreview preview = brick.PreviewRotateRight();
-      if (GameMechanics.Collides(_gameBoard, preview))
-        return ActionResult.Blocked;
+    private ActionResult RotateLeft(Brick brick) => TryRotate(brick, brick.PreviewRotateLeft());
+    private ActionResult RotateRight(Brick brick) => TryRotate(brick, brick.PreviewRotateRight());
+    private ActionResult TryRotate(Brick brick, BrickPreview preview) {
+      // If the rotation collides, try shifting the brick to nearby positions.
+      if (GameMechanics.Collides(_gameBoard, preview)) {
+        BrickPreview wallkick = GameMechanics.TryWallkick(_gameBoard, preview);
+        if (wallkick.Position == preview.Position)
+          return ActionResult.Blocked;
+
+        preview = wallkick;
+      }
 
       brick.ApplyPreview(preview);
       return ActionResult.Rotated;

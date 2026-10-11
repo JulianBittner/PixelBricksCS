@@ -15,13 +15,29 @@ namespace PixelBricksCS.Game.Gameplay
           if (pixel == BrickID.None) continue;
           GridPosition boardPosition = new(y + preview.Position.Y, x + preview.Position.X);
 
-          // Right wall collision
+          // Wall collision
           if (boardPosition.X >= gameBoard.Width || boardPosition.X < 0) return true;
           // Pixel collision
           if (gameBoard[boardPosition.Y, boardPosition.X] != BrickID.None) return true;
         }
       }
       return false;
+    }
+
+    public static BrickPreview TryWallkick(GameBoard gameBoard, BrickPreview preview) {
+      BrickPreview wallkick = preview.WithPositionOffset(0, -1);
+
+      if (Collides(gameBoard, wallkick)) wallkick = preview.WithPositionOffset(0, +1);
+      else return wallkick;
+
+      if (Collides(gameBoard, wallkick)) wallkick = preview.WithPositionOffset(0, -2);
+      else return wallkick;
+
+      if (Collides(gameBoard, wallkick)) wallkick = preview.WithPositionOffset(0, +2);
+      else return wallkick;
+
+      if (Collides(gameBoard, wallkick)) return preview;
+      else return wallkick;
     }
   }
 }
