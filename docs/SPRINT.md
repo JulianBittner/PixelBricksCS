@@ -22,9 +22,16 @@ Rotating near walls or blocks shifts the brick if possible.
 **Done when:**
 - [x] A rotation near a wall or block shifts the brick so the rotation fits, if possible
 
-### Hard drop
+### Impact and blast
+Terms and rules: see `docs/RULES.md`.
+
 **Done when:**
-- [ ] The brick drops instantly and locks
+- [ ] The launch action fires the brick straight up; it impacts instantly and locks
+- [ ] A blast is triggered when the brick has at least three contact points
+- [ ] A blast removes all ceiling pixels within its blast radius
+- [ ] A blast removing six or more pixels at radius 1 becomes a big blast (radius 2)
+- [ ] A blast removing eight or more pixels at radius 1 becomes a mega blast (radius 3)
+- [ ] If no blast is triggered, the brick remains at its impact position
 
 ---
 
