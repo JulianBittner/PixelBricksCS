@@ -1,4 +1,5 @@
 ﻿using PixelBricksCS.Engine.Core;
+using PixelBricksCS.Engine.Diagnostics;
 using PixelBricksCS.Game.Gameplay.Bricks;
 using System;
 using System.Collections.Generic;
@@ -6,19 +7,21 @@ using System.Text;
 
 namespace PixelBricksCS.Game.Gameplay
 {
-  internal static class GameMechanics
+  internal static class GameMechanicUtils
   {
     public static bool Collides(GameBoard gameBoard, BrickPreview preview) {
       for (int y = 0; y < preview.Shape.Height; y++) {
         for (int x = 0; x < preview.Shape.Width; x++) {
           BrickID pixel = preview.Shape[y, x];
           if (pixel == BrickID.None) continue;
-          GridPosition boardPosition = new(y + preview.Position.Y, x + preview.Position.X);
+          GridPosition pixelPosition = new(y + preview.Position.Y, x + preview.Position.X);
 
+          // Ceiling collision
+          if (pixelPosition.Y < 0) return true;
           // Wall collision
-          if (boardPosition.X >= gameBoard.Width || boardPosition.X < 0) return true;
+          if (pixelPosition.X < 0 || pixelPosition.X >= gameBoard.Width) return true;
           // Pixel collision
-          if (gameBoard[boardPosition.Y, boardPosition.X] != BrickID.None) return true;
+          if (gameBoard[pixelPosition.Y, pixelPosition.X] != BrickID.None) return true;
         }
       }
       return false;

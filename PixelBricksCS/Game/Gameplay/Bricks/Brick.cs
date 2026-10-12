@@ -32,6 +32,10 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
       _position = preview.Position;
     }
 
+    public BrickPreview ToPreview() {
+      return new(Shape, _position, _rotation);
+    }
+
     public BrickPreview PreviewMoveLeft() => 
       new(Shape, _position.WithOffset(0, -1), _rotation);
 

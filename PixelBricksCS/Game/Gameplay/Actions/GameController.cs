@@ -8,9 +8,11 @@ namespace PixelBricksCS.Game.Gameplay.Actions
   internal class GameController
   {
     private GameBoard _gameBoard;
+    private GhostBrick _ghostBrick;
 
-    public GameController(GameBoard gameBoard) {
+    public GameController(GameBoard gameBoard, GhostBrick ghostBrick) {
       _gameBoard = gameBoard;
+      _ghostBrick = ghostBrick;
     }
 
     public ActionResult Apply(Brick brick, GameAction action) => action switch {
@@ -24,10 +26,12 @@ namespace PixelBricksCS.Game.Gameplay.Actions
     private ActionResult MoveLeft(Brick brick) => TryMove(brick, brick.PreviewMoveLeft());
     private ActionResult MoveRight(Brick brick) => TryMove(brick, brick.PreviewMoveRight());
     private ActionResult TryMove(Brick brick, BrickPreview preview) {
-      if (GameMechanics.Collides(_gameBoard, preview))
+      if (GameMechanicUtils.Collides(_gameBoard, preview))
         return ActionResult.Blocked;
 
       brick.ApplyPreview(preview);
+      _ghostBrick.UpdateGhostBrick(brick);
+
       return ActionResult.Moved;
     }
 
@@ -35,8 +39,8 @@ namespace PixelBricksCS.Game.Gameplay.Actions
     private ActionResult RotateRight(Brick brick) => TryRotate(brick, brick.PreviewRotateRight());
     private ActionResult TryRotate(Brick brick, BrickPreview preview) {
       // If the rotation collides, try shifting the brick to nearby positions.
-      if (GameMechanics.Collides(_gameBoard, preview)) {
-        BrickPreview wallkick = GameMechanics.TryWallkick(_gameBoard, preview);
+      if (GameMechanicUtils.Collides(_gameBoard, preview)) {
+        BrickPreview wallkick = GameMechanicUtils.TryWallkick(_gameBoard, preview);
         if (wallkick.Position == preview.Position)
           return ActionResult.Blocked;
 
@@ -44,6 +48,8 @@ namespace PixelBricksCS.Game.Gameplay.Actions
       }
 
       brick.ApplyPreview(preview);
+      _ghostBrick.UpdateGhostBrick(brick);
+
       return ActionResult.Rotated;
     }
   }

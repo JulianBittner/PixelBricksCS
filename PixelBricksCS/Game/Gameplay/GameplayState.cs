@@ -23,13 +23,15 @@ namespace PixelBricksCS.Game.Gameplay
     private IContextHandle<GameStateID> _contextHandle = null!;
     private IAudioHandle _audioHandle = null!;
 
-    private GameBoard _board = new();
-    private Brick _currentBrick = new(BrickID.I);
     private GameController _gameController;
+    private GameBoard _gameBoard = new();
+    private Brick _currentBrick = new(BrickID.I);
+    private GhostBrick _ghostBrick;
 
     public GameplayState() {
       _renderer = new(_frameBuffer);
-      _gameController = new GameController(_board);
+      _ghostBrick = new(_gameBoard, _currentBrick);
+      _gameController = new GameController(_gameBoard, _ghostBrick);
     }
 
     GameStateID IEngineState<GameStateID>.StateID => GameStateID.Gameplay;
@@ -37,12 +39,16 @@ namespace PixelBricksCS.Game.Gameplay
     FrameBuffer IEngineState<GameStateID>.TargetBuffer => _frameBuffer;
 
     public void Init() {
-      int screenMid = (EngineConfig.GameConsoleSize.Width / 2) - (_board.Width);
+      int screenMid = (EngineConfig.GameConsoleSize.Width / 2) - (_gameBoard.Width);
       int belowTitle = 7;
       GridPosition boardPosition = new(belowTitle, screenMid);
 
-      TileMapComposer<BrickID> tileMapComposer = new(_board, new BrickTileSet());
+      TileMapComposer<BrickID> tileMapComposer = new(_gameBoard, new BrickTileSet());
       _renderer.AddDynamicComposer(tileMapComposer, boardPosition);
+      
+      _renderer.AddDynamicComposer(
+        new GhostComposer(_ghostBrick),
+        boardPosition);
 
       _renderer.AddDynamicComposer(
         new BrickComposer(_currentBrick, new BrickTileSet()), 
@@ -66,7 +72,7 @@ namespace PixelBricksCS.Game.Gameplay
 
     void IEngineState<GameStateID>.Exit() {
       _audioHandle.StopMusicLoop();
-      _board.Reset();
+      _gameBoard.Reset();
     }
 
     void IEngineState<GameStateID>.Render() {
