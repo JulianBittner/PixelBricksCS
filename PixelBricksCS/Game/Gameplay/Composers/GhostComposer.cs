@@ -3,7 +3,7 @@ using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Game.Gameplay.Bricks;
 
-namespace PixelBricksCS.Game.Gameplay
+namespace PixelBricksCS.Game.Gameplay.Composers
 {
   internal class GhostComposer : IComposer
   {

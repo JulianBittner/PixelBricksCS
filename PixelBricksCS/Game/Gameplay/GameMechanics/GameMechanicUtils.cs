@@ -1,11 +1,12 @@
 ﻿using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Diagnostics;
+using PixelBricksCS.Game.Gameplay.Actions;
 using PixelBricksCS.Game.Gameplay.Bricks;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PixelBricksCS.Game.Gameplay
+namespace PixelBricksCS.Game.Gameplay.GameMechanics
 {
   internal static class GameMechanicUtils
   {
@@ -41,6 +42,31 @@ namespace PixelBricksCS.Game.Gameplay
 
       if (Collides(gameBoard, wallkick)) return preview;
       else return wallkick;
+    }
+
+    public static HashSet<GridPosition> FindContactPixels(GameBoard _gameBoard, Brick brick) {
+      HashSet<GridPosition> contacts = new();
+      BrickShape shape = brick.Shape;
+
+      for (int y = 0; y < shape.Height; y++) {
+        for (int x = 0; x < shape.Width; x++) {
+          // WIP 
+          throw new NotImplementedException("Not yet implemented");
+        }
+      }
+
+      return contacts;
+    }
+
+    public static ImpactResult DeterminBlastArea(
+      GameBoard gameBoard, Brick brick, HashSet<GridPosition> contactPixels) 
+    {
+      throw new NotImplementedException("Not yet implemented");
+      return new ImpactResult(new(), 0, 0);
+    }
+
+    public static bool CeilingReachedBottom(GameBoard gameBoard) {
+      throw new NotImplementedException("Not yet implemented");
     }
   }
 }

@@ -9,6 +9,9 @@ using PixelBricksCS.Game.Assets.Sounds;
 using PixelBricksCS.Game.Assets.Sprites;
 using PixelBricksCS.Game.Gameplay.Actions;
 using PixelBricksCS.Game.Gameplay.Bricks;
+using PixelBricksCS.Game.Gameplay.Composers;
+using PixelBricksCS.Game.Gameplay.GameMechanics;
+using PixelBricksCS.Game.Gameplay.Scores;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,25 +20,38 @@ namespace PixelBricksCS.Game.Gameplay
 {
   internal class GameplayState : IEngineState<GameStateID>
   {
-    private FrameBuffer _frameBuffer = new();
-    private Renderer _renderer;
+    private delegate GamePhase GamePhase(double deltaTime, ConsoleKey playerInputKey);
+    GamePhase _currentPhase;
 
     private IContextHandle<GameStateID> _contextHandle = null!;
     private IAudioHandle _audioHandle = null!;
 
-    private GameController _gameController;
+    private FrameBuffer _frameBuffer = new();
+    private Renderer _renderer;
+
+    private ActionController _actionController;
+    private WorldController _worldController;
+    
     private GameBoard _gameBoard = new();
-    private Brick _currentBrick = new(BrickID.I);
+    private ScoreBoard _scoreBoard = new();
+    
+    private Brick _currentBrick;
     private GhostBrick _ghostBrick;
+
 
     public GameplayState() {
       _renderer = new(_frameBuffer);
+
+      _currentBrick = new(BrickID.I);
       _ghostBrick = new(_gameBoard, _currentBrick);
-      _gameController = new GameController(_gameBoard, _ghostBrick);
+
+      _actionController = new ActionController(_gameBoard, _ghostBrick);
+      _worldController = new WorldController(_gameBoard);
+
+      _currentPhase = Aim;
     }
 
     GameStateID IEngineState<GameStateID>.StateID => GameStateID.Gameplay;
-
     FrameBuffer IEngineState<GameStateID>.TargetBuffer => _frameBuffer;
 
     public void Init() {
@@ -79,12 +95,68 @@ namespace PixelBricksCS.Game.Gameplay
       _renderer.RenderDynamicContent();
     }
 
-    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey userInputKey) {
-      GameAction action = GameInputMapper.ToAction(userInputKey);
-      if (action == GameAction.None) return;
+    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey playerInputKey) {
+      _currentPhase = _currentPhase(deltaTime, playerInputKey);
+    }
 
-      ActionResult actionResult = _gameController.Apply(_currentBrick, action);
-      PlayActionSound(actionResult);
+    private GamePhase Aim(double deltaTime, ConsoleKey playerInputKey) {
+      // # Decent
+      bool isGameOver = _worldController.DescentCeiling(deltaTime, _currentBrick);
+      if (isGameOver) throw new NotImplementedException("GameOver Screen not yet implemented");
+
+      // # Aim
+      GameAction action = GameInputMapper.ToAction(playerInputKey);
+      if (action == GameAction.None) 
+        return Aim;
+
+      ActionResult actionResult = _actionController.Apply(_currentBrick, action);
+
+      if (actionResult != ActionResult.Locked) {
+        PlayActionSound(actionResult);
+        return Aim;
+      }
+
+      // # Launch
+      ImpactResult impactResult;
+
+      // Impact analysis
+      HashSet<GridPosition> contactPixels 
+        = GameMechanicUtils.FindContactPixels(_gameBoard, _currentBrick);
+
+      if (contactPixels.Count < 3) {
+        // Merge
+        _gameBoard.MergeBrick(_currentBrick);
+        impactResult = new(new List<GridPosition>(), contactPixels.Count, Range: 0);
+      }
+      else {
+        // Blast
+        impactResult = GameMechanicUtils.DeterminBlastArea(
+          _gameBoard, 
+          _currentBrick,
+          contactPixels);
+
+        _gameBoard.ApplyBlast(impactResult);
+      }
+
+      _scoreBoard.Record(impactResult);
+      
+      return Animate(deltaTime, playerInputKey);
+    }
+
+    private GamePhase Animate(double deltaTime, ConsoleKey playerInputKey) {
+      if (false) {
+        // TODO
+        return Animate;
+      }
+
+      // Change to next State; Execute already this frame
+      return BrickGeneration(deltaTime, playerInputKey);
+    }
+
+    private GamePhase BrickGeneration(double deltaTime, ConsoleKey playerInputKey) {
+      Random random = new Random();
+      _currentBrick = new((BrickID)random.Next(1, 7));
+      return Aim;
     }
 
     private void PlayActionSound(ActionResult result) {
@@ -96,6 +168,9 @@ namespace PixelBricksCS.Game.Gameplay
           _audioHandle.PlaySound(GameSounds.CreateRotate());
           break;
         case ActionResult.Blocked:
+          _audioHandle.PlaySound(StockMenuSounds.CreateDenialBlip());
+          break;
+        case ActionResult.Locked:
           _audioHandle.PlaySound(StockMenuSounds.CreateDenialBlip());
           break;
         default:

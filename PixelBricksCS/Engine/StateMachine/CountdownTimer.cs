@@ -17,7 +17,7 @@ namespace PixelBricksCS.Engine.StateMachine
     public double ElapsedSeconds => _elapsedSeconds;
     public double DurationInSeconds => _durationInSeconds;
 
-    public bool TimeUp(double deltaTimeInSeconds) {
+    public bool IsTimeUp(double deltaTimeInSeconds) {
       _elapsedSeconds += deltaTimeInSeconds;
       return _elapsedSeconds >= _durationInSeconds;
     }

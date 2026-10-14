@@ -26,6 +26,7 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
     public BrickID ID => _brickID;
     public BrickShape Shape => _body[(int)_rotation];
     public GridPosition Position => _position;
+    public BrickRotation Rotation => _rotation;
 
     public void ApplyPreview(BrickPreview preview) {
       _rotation = preview.Rotation;

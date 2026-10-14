@@ -48,16 +48,16 @@ namespace PixelBricksCS.Game.SplashScreen
       audioHandle.PlaySound(SplashScreenSound.CreateSplashScreenPling(EngineConfig.MenuSoundVolume));
     }
 
-    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey userInputKey) {     
+    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey playerInputKey) {     
       if (!_lastComposer.AnimationFinished) {
-        if (!_animationTimer.TimeUp(deltaTime)) return;
+        if (!_animationTimer.IsTimeUp(deltaTime)) return;
         _animation.MoveNext();
         _lastComposer = _animation.Current;
         _renderer.RenderDynamicContent();
         return;
       }
       
-      if (_delayTimer.TimeUp(deltaTime)) {
+      if (_delayTimer.IsTimeUp(deltaTime)) {
         _contextHandle.RequestStateChange(GameStateID.Menu);
       }      
     }
