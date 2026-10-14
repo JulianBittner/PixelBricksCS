@@ -15,31 +15,24 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 - [x] Player: holds key bindings (key → action); active state decides what each action does
 
 ## 2. Core Gameplay
-- [ ] Board: grid data structure (10×20), occupied/free cells
-- [ ] Board composer (composes the playing field region incl. border; renderer assembles composed regions)
-- [ ] Tetromino: data model (cells, position, color)
-- [ ] Tetromino shape definitions (all 7 pieces: I, O, T, S, Z, J, L)
-- [ ] Spawning: new piece appears at top of the board
-- [ ] Gravity: piece falls automatically at a fixed interval
-- [ ] Collision detection (walls, floor, locked blocks)
-- [ ] Locking: piece freezes into the board when it lands
+- [x] Board: grid data structure (14×24), occupied/free cells
+- [x] Bricks: grid data model (cells, position, color)
+- [x] Bricks shape definitions (7 pieces: I, O, T, S, Z, J, L)
+- [x] Brick composer (composes the current Brick to the field)
 
 ## 3. Player Controls (in-game)
-- [ ] Sideways movement (left/right)
+- [x] Sideways movement (left/right)
 - [ ] Rotation (clockwise; counterclockwise optional)
+- [ ] Collision: the brick cannot move through the board walls
 - [ ] Wall kicks (rotation near walls/blocks shifts the piece if possible)
-- [ ] Soft drop (accelerated falling while key held)
 - [ ] Hard drop (instant drop and lock)
 
 ## 4. Game Rules
-- [ ] Detect full rows
-- [ ] Clear full rows + shift rows above down
-- [ ] Scoring (points per line clear; more for multi-line clears, e.g. Tetris = 4 lines)
-- [ ] Level system (level increases after N cleared lines)
-- [ ] Difficulty scaling (fall speed increases with level)
-- [ ] Randomizer: 7-bag (each of the 7 pieces once per bag, shuffled)
-- [ ] Game-over detection (new piece cannot spawn / stack reaches top)
-- [ ] Lock delay (short grace period to move/rotate after touching down) — optional, classic feel works without
+- [ ] Every x seconds, a new row spawns at the top of the ceiling and pushes it one row down
+- [ ] The descent speed increases with the collected points
+- [ ] The brick is fixed vertically at the bottom of the board and can only move left and right
+- [ ] Pressing Space launches the brick straight up; it lands at the ceiling and blasts all pixels it touches
+- [ ] Every blasted pixel scores one point 
 
 ## 5. HUD (in-game UI)
 - [ ] Score display

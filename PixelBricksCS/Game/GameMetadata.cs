@@ -18,5 +18,7 @@ namespace PixelBricksCS.Game
     ];
 
     public static CellColor TitleColor = CellColor.Cyan;
+    public static int BoardHeight => 24;
+    public static int BoardWidth => 14;
   }
 }

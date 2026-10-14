@@ -2,6 +2,7 @@
 using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Engine.StateMachine;
 using PixelBricksCS.Game;
+using PixelBricksCS.Game.Gameplay;
 using PixelBricksCS.Game.Menu;
 using PixelBricksCS.Game.SplashScreen;
 
@@ -17,6 +18,10 @@ class Program
     MenuScreen menuScreen = new();
     menuScreen.Init();
     pixelBricks.RegisterEngineState(menuScreen);
+
+    GameplayState gameplayState = new();
+    gameplayState.Init();
+    pixelBricks.RegisterEngineState(gameplayState);
 
     ExitScreen exitScreen = new();
     exitScreen.Init();

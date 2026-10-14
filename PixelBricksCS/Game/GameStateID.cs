@@ -9,6 +9,6 @@ namespace PixelBricksCS.Game
     ExitScreen = 0,
     SplashScreen = 1,
     Menu = 2,
-    Game = 3
+    Gameplay = 3
   }
 }

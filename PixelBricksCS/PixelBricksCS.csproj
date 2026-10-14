@@ -8,12 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NAudio" Version="2.2.1" />
-    <PackageReference Include="NAudio.Core" Version="2.2.1" />
+    <Compile Remove="Sandbox\**" />
+    <EmbeddedResource Remove="Sandbox\**" />
+    <None Remove="Sandbox\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Sandbox\" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="NAudio.Core" Version="2.2.1" />
   </ItemGroup>
 
 </Project>

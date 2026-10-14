@@ -18,8 +18,6 @@ namespace PixelBricksCS.Game.Assets.Sprites
       ]);
 
     public static readonly CharSprite GrayedItems = new([
-      "PLAY   ",
-      "       ",
       "CREDITS",      
       ]);
 

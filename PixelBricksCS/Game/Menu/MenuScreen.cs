@@ -52,7 +52,7 @@ namespace PixelBricksCS.Game.Menu
         new BlockComposer(MenuSprites.ItemBox, CellColor.Default), itemBoxPosition);
 
       // Overlay, to gray out unavailable items
-      GridPosition GrayedItemPosition = new(itemBoxPositionY+1, itemBoxPositionX+8);
+      GridPosition GrayedItemPosition = new(itemBoxPositionY+3, itemBoxPositionX+8);
       _renderer.AddStaticComposer(
         new BlockComposer(MenuSprites.GrayedItems, CellColor.Gray), GrayedItemPosition);
       
@@ -67,7 +67,7 @@ namespace PixelBricksCS.Game.Menu
     void IEngineState<GameStateID>.Enter(IContextHandle<GameStateID> contextHandle, IAudioHandle audioHandle) {
       _contextHandle = contextHandle;
       _audioHandle = audioHandle;
-      _audioHandle.PlayMusicLoop(new GameMusicTrack1());
+      _audioHandle.PlayMusicLoop(new StockMusicTrack1());
     }
 
     void IEngineState<GameStateID>.Exit() {
@@ -105,7 +105,8 @@ namespace PixelBricksCS.Game.Menu
     private void ActivateSelectedItem() {
       switch ((MenuItem)_selectedIndex) {
         case MenuItem.Play:
-          _audioHandle.PlaySound(StockMenuSounds.CreateDenialBlip());
+          _audioHandle.PlaySound(StockMenuSounds.CreateConfirmationBlip());
+          _contextHandle.RequestStateChange(GameStateID.Gameplay);
           break;
         case MenuItem.Credits:
           _audioHandle.PlaySound(StockMenuSounds.CreateDenialBlip());

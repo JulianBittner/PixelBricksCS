@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PixelBricksCS.Sandbox
+namespace PixelBricksCS.Game.Gameplay
 {
-  internal enum MinoID
+  internal enum BrickID
   {
     None = 0,
     I = 1,

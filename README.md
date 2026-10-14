@@ -4,7 +4,7 @@ A falling-block puzzle game for the console, written in C# (.NET).
 
 ## About
 
-PixelBricks is a learning project. The goal is to learn C# itself, and to understand and implement the core concepts of game programming from scratch — a custom console rendering pipeline, a composing system, a state machine, a frame-timed game loop, user input handling, and procedurally generated sound and music.
+PixelBricks is a learning project. The goal is to learn C# itself, and to understand and implement the core concepts of game programming from scratch — a custom console rendering pipeline, a composing system, a state machine, a frame-timed game loop, user input handling, collision detection, and procedurally generated sound and music.
 
 The only external dependency is [NAudio](https://github.com/naudio/NAudio), used solely to send audio to the sound card. Everything above that layer — sound effects, music, mixing — is generated in code from note data.
 
@@ -45,14 +45,25 @@ Keyboard → UserInput → ConsoleKey → Input mapper → Action → State logi
 - **UserInput** — polls the keyboard once per frame without blocking the loop.
 - **Input mappers** — the engine only delivers raw keys; game-specific mappers translate them into actions, keeping the engine free of game controls.
 
+The gameplay applies actions to the brick in a check-before-apply cycle:
+
+```
+Action → Controller → Preview → Collision check → Apply → Action result
+```
+
+- **Brick shapes** — defined as logic data per rotation, separate from their graphics, which are drawn through a tile set.
+- **Previews** — moves and rotations never change the brick directly. The brick returns a preview of its next pose, which is only applied if it doesn't collide.
+- **Wall kicks** — a rotation that collides is shifted to nearby positions before it is rejected.
+- **Action results** — the controller reports what happened, and the gameplay state plays matching sound feedback, keeping the controller free of input and audio.
+- **Ghost brick** — shows where the brick would hit when launched.
+
 The **game loop** drives interchangeable states (via a state machine) frame by frame, using a frame timer to cap the frame rate and provide delta time. It polls the input and passes it to the active state.
 
 ## Project Structure
 
 ```
 Engine/    Reusable engine tech (rendering, composing, audio, input, state machine)
-Game/      Game-specific content (screens, assets, game data)
-Sandbox/   Demos and experiments
+Game/      Game-specific content (screens, gameplay, assets, game data)
 docs/      Project planning and diagrams
 ```
 
@@ -66,7 +77,9 @@ Requires Windows (audio output uses WinMM).
 
 ## Status
 
-Actively in development. See `docs/BACKLOG.md` for the current feature set and roadmap, and `docs/SPRINT.md` for the current sprint.
+Actively in development. The current build includes an animated splash screen, a main menu, an exit screen, and the first gameplay: the brick can be moved and rotated with collision detection and wall kicks, and a ghost brick shows its launch target.
+
+See `docs/BACKLOG.md` for the current feature set and roadmap, and `docs/SPRINT.md` for the current sprint.
 
 ## Note
 
