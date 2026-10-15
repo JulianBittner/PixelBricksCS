@@ -1,4 +1,5 @@
-﻿using PixelBricksCS.Engine.Assets.Sounds;
+﻿using NAudio.Wave;
+using PixelBricksCS.Engine.Assets.Sounds;
 using PixelBricksCS.Engine.Audio;
 using PixelBricksCS.Engine.Composing;
 using PixelBricksCS.Engine.Core;
@@ -102,37 +103,34 @@ namespace PixelBricksCS.Game.Gameplay
     }
 
     private GamePhase Aim(double deltaTime, ConsoleKey playerInputKey) {
-      // # Decent
       bool isGameOver = _worldController.DescentCeiling(deltaTime, _currentBrick);
-      if (isGameOver) throw new NotImplementedException("GameOver Screen not yet implemented");
+      if (isGameOver) 
+        throw new NotImplementedException("GameOver Screen not yet implemented");
 
-      // # Aim
       GameAction action = GameInputMapper.ToAction(playerInputKey);
       if (action == GameAction.None) 
         return Aim;
 
       ActionResult actionResult = _actionController.Apply(_currentBrick, action);
-
-      if (actionResult != ActionResult.Locked) {
-        PlayActionSound(actionResult);
+      if (actionResult != ActionResult.Launched) {
+        _audioHandle.PlaySound(GetActionSound(actionResult));
         return Aim;
       }
 
-      // # Launch
-      // Impact analysis
       ImpactResult impactResult 
         = GameMechanicUtils.ImpactAnalysis(_gameBoard, _currentBrick);
+      _audioHandle.PlaySound(GetImpactSound(impactResult));
+      _audioHandle.PlaySound(GameSounds.CreateLaunch());
 
-      if (impactResult.Contacts < 3) {
+      if (impactResult.Contacts < 3)
         _gameBoard.MergeBrick(_currentBrick);
-      }
       else {
-        _gameBoard.ApplyBlast(impactResult);
+        //TODO: Not implemented yet
+        //_gameBoard.ApplyBlast(impactResult);
       }
-
       // TODO: Not Implemented yet
       //_scoreBoard.Record(impactResult);
-      
+
       return Animate(deltaTime, playerInputKey);
     }
 
@@ -152,23 +150,21 @@ namespace PixelBricksCS.Game.Gameplay
       return Aim;
     }
 
-    private void PlayActionSound(ActionResult result) {
-      switch (result) {
-        case ActionResult.Moved:
-          _audioHandle.PlaySound(GameSounds.CreateMove());
-          break;
-        case ActionResult.Rotated:
-          _audioHandle.PlaySound(GameSounds.CreateRotate());
-          break;
-        case ActionResult.Blocked:
-          _audioHandle.PlaySound(StockMenuSounds.CreateDenialBlip());
-          break;
-        case ActionResult.Locked:
-          _audioHandle.PlaySound(StockMenuSounds.CreateDenialBlip());
-          break;
-        default:
-          break;
-      }
-    }
+    private ISampleProvider GetImpactSound(ImpactResult impactResult) 
+      => impactResult.Range switch {
+      3 => RumbleSound.CreateRumble2Seconds(),
+      2 => RumbleSound.CreateRumble1Seconds(),
+      1 => RumbleSound.CreateRumble05Seconds(),
+      0 => GameSounds.CreateLand(),
+      _ => NullSampleProvider.Instance
+    };
+
+    private ISampleProvider GetActionSound(ActionResult actionResult) 
+      => actionResult switch {
+      ActionResult.Moved => GameSounds.CreateMove(),
+      ActionResult.Rotated => GameSounds.CreateRotate(),
+      ActionResult.Blocked => StockMenuSounds.CreateDenialBlip(),
+      _ => NullSampleProvider.Instance
+    };
   }
 }

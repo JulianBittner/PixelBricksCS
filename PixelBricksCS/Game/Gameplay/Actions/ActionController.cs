@@ -60,7 +60,7 @@ namespace PixelBricksCS.Game.Gameplay.Actions
     // ### Launch
     private ActionResult LaunchBrick(Brick brick) {
       brick.ApplyPreview(_ghostBrick.ToPreview());
-      return ActionResult.Locked;
+      return ActionResult.Launched;
     }
   }
 }

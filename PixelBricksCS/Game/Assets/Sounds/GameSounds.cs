@@ -32,13 +32,34 @@ namespace PixelBricksCS.Game.Assets.Sounds
 
     // Short noise burst – e.g. when a piece lands
     public static ISampleProvider CreateLand(double volume = EngineConfig.MenuSoundVolume) {
-      SignalGenerator gen = new(SampleRate, Channel1) { 
-        Gain = volume, 
-        Type = SignalGeneratorType.White };
-      OffsetSampleProvider cut = new(gen) { 
-        Take = TimeSpan.FromMilliseconds(60) };
+      SignalGenerator gen = new(SampleRate, Channel1) {
+        Gain = volume,
+        Type = SignalGeneratorType.White
+      };
+      OffsetSampleProvider cut = new(gen) {
+        Take = TimeSpan.FromMilliseconds(60)
+      };
       FadeInOutSampleProvider sound = new(cut);
       sound.BeginFadeOut(60);
+
+      return sound;
+    }
+
+    // Rising sweep – the brick shooting upwards
+    public static ISampleProvider CreateLaunch(double volume = EngineConfig.MenuSoundVolume) {
+      SignalGenerator gen = new(SampleRate, Channel1) {
+        Gain = volume,
+        Type = SignalGeneratorType.Sweep,
+        Frequency = 200,
+        FrequencyEnd = 1600,
+        SweepLengthSecs = 0.12
+      };
+      OffsetSampleProvider cut = new(gen) {
+        Take = TimeSpan.FromMilliseconds(120)
+      };
+
+      FadeInOutSampleProvider sound = new(cut);
+      sound.BeginFadeOut(120);
 
       return sound;
     }
