@@ -119,24 +119,14 @@ namespace PixelBricksCS.Game.Gameplay
       }
 
       // # Launch
-      ImpactResult impactResult;
-
       // Impact analysis
-      HashSet<GridPosition> contactPixels 
-        = GameMechanicUtils.FindContactPixels(_gameBoard, _currentBrick);
+      ImpactResult impactResult 
+        = GameMechanicUtils.ImpactAnalysis(_gameBoard, _currentBrick);
 
-      if (contactPixels.Count < 3) {
-        // Merge
+      if (impactResult.Contacts < 3) {
         _gameBoard.MergeBrick(_currentBrick);
-        impactResult = new(new List<GridPosition>(), contactPixels.Count, Range: 0);
       }
       else {
-        // Blast
-        impactResult = GameMechanicUtils.DeterminBlastArea(
-          _gameBoard, 
-          _currentBrick,
-          contactPixels);
-
         _gameBoard.ApplyBlast(impactResult);
       }
 

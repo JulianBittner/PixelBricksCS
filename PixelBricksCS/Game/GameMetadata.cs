@@ -24,9 +24,9 @@ namespace PixelBricksCS.Game
     public static int BoardWidth => 14;
 
     // Game Rouls
-    public const int BlastContactThreshold = 3;   // contact points needed for a blast
-    public const int BigBlastContactThreshold = 6;   // contact points needed for a big blast
-    public const int MegaBlastContactThreshold = 8;   // contact points needed for a mega blast
+    public const int BlastThreshold = 3;   // contact points needed for a blast
+    public const int BigBlastThreshold = 6;   // contact points needed for a big blast
+    public const int MegaBlastThreshold = 8;   // contact points needed for a mega blast
 
     public const double DefaultCeilingSeconds = 1000.0;
   }

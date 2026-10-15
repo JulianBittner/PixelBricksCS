@@ -6,7 +6,7 @@ using System.Text;
 namespace PixelBricksCS.Game.Gameplay.GameMechanics
 {
   internal readonly record struct ImpactResult(
-    List<GridPosition> AffectedPixels,
+    HashSet<GridPosition> AffectedPixels,
     int Contacts,
     int Range)
   { }

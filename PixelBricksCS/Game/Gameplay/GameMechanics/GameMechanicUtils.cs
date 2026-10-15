@@ -45,8 +45,10 @@ namespace PixelBricksCS.Game.Gameplay.GameMechanics
       else return wallkick;
     }
 
-    public static HashSet<GridPosition> FindContactPixels(GameBoard gameBoard, Brick brick) {
-      HashSet<GridPosition> contacts = new();
+    public static ImpactResult ImpactAnalysis(GameBoard gameBoard, Brick brick) {
+      HashSet<GridPosition> contactPixels = new();
+      int contacts = 0;
+
       BrickShape shape = brick.Shape;
 
       for (int y = 0; y < shape.Height; y++) {
@@ -55,20 +57,34 @@ namespace PixelBricksCS.Game.Gameplay.GameMechanics
           if (pixel == BrickID.None) continue;
 
           GridPosition boardPosition = new (brick.Position.Y + y, brick.Position.X + x);
-          if (gameBoard.GetIDAt(boardPosition.WithOffset( 0, -1)) != BrickID.None)
-            contacts.Add(boardPosition.WithOffset(0, -1));
+          if (gameBoard.GetIDAt(boardPosition.WithOffset(0, -1)) != BrickID.None) {
+            contactPixels.Add(boardPosition.WithOffset(0, -1));
+            contacts++;
+          }
 
-          if (gameBoard.GetIDAt(boardPosition.WithOffset( 0, +1)) != BrickID.None)
-            contacts.Add(boardPosition.WithOffset(0, +1));
+          if (gameBoard.GetIDAt(boardPosition.WithOffset(0, +1)) != BrickID.None) {
+            contactPixels.Add(boardPosition.WithOffset(0, +1));
+            contacts++;
+          }
 
-          if (gameBoard.GetIDAt(boardPosition.WithOffset(-1,  0)) != BrickID.None)
-            contacts.Add(boardPosition.WithOffset(-1, 0));
+          if (gameBoard.GetIDAt(boardPosition.WithOffset(-1, 0)) != BrickID.None) {
+            contactPixels.Add(boardPosition.WithOffset(-1, 0));
+            contacts++;
+          }
 
-          if (gameBoard.GetIDAt(boardPosition.WithOffset(+1,  0)) != BrickID.None)
-            contacts.Add(boardPosition.WithOffset(+1, 0));
+          if (gameBoard.GetIDAt(boardPosition.WithOffset(+1, 0)) != BrickID.None) {
+            contactPixels.Add(boardPosition.WithOffset(+1, 0));
+            contacts++;
+          }
         }
       }
-      return contacts;
+
+      int range = 0;
+      if      (contacts >= GameMetadata.MegaBlastThreshold) range = 3;
+      else if (contacts >=  GameMetadata.BigBlastThreshold) range = 2;
+      else if (contacts >=     GameMetadata.BlastThreshold) range = 1;
+
+      return new(contactPixels, contacts, range);
     }
 
     public static ImpactResult DeterminBlastArea(
