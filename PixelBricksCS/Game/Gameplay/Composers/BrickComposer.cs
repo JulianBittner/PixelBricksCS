@@ -9,12 +9,16 @@ namespace PixelBricksCS.Game.Gameplay.Composers
   {
     private const int TileWidth = 2;
 
-    private readonly Brick _brick;
+    private Brick _brick;
     private readonly ITileSet<BrickID> _tileSet;
 
     public BrickComposer(Brick brick, ITileSet<BrickID> tileSet) {
       _brick = brick;
       _tileSet = tileSet;
+    }
+
+    public void ReplaceBrick(Brick brick) {
+      _brick = brick;
     }
 
     void IComposer.Compose(FrameBuffer frameBuffer, GridPosition boardPosition) {

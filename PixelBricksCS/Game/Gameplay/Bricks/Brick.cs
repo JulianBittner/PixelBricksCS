@@ -52,5 +52,10 @@ namespace PixelBricksCS.Game.Gameplay.Bricks
       BrickRotation previewRotation = (BrickRotation)(((int)_rotation + 1) % RotationCount);
       return new(_body[(int)previewRotation], _position, previewRotation);
     }
+
+    public static Brick GetRandomBrick() {
+      Random random = new Random();
+      return new((BrickID)random.Next(1, 8));
+    }
   }
 }

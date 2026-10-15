@@ -17,7 +17,7 @@ namespace PixelBricksCS.Game.Assets.Sprites
       tiles[BrickID.O] = new Tile("██", CellColor.BrightYellow);
       tiles[BrickID.T] = new Tile("██", CellColor.Magenta);
       tiles[BrickID.L] = new Tile("██", CellColor.Yellow);
-      tiles[BrickID.J] = new Tile("██", CellColor.Black);
+      tiles[BrickID.J] = new Tile("██", CellColor.Gray);
       tiles[BrickID.S] = new Tile("██", CellColor.Green);
       tiles[BrickID.Z] = new Tile("██", CellColor.BrightRed);
     }

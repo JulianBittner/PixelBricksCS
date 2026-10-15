@@ -28,6 +28,7 @@ namespace PixelBricksCS.Game.Gameplay
 
     private FrameBuffer _frameBuffer = new();
     private Renderer _renderer;
+    private BrickComposer _brickComposer = null!;
 
     private ActionController _actionController;
     private WorldController _worldController;
@@ -42,7 +43,7 @@ namespace PixelBricksCS.Game.Gameplay
     public GameplayState() {
       _renderer = new(_frameBuffer);
 
-      _currentBrick = new(BrickID.I);
+      _currentBrick = Brick.GetRandomBrick();
       _ghostBrick = new(_gameBoard, _currentBrick);
 
       _actionController = new ActionController(_gameBoard, _ghostBrick);
@@ -66,8 +67,9 @@ namespace PixelBricksCS.Game.Gameplay
         new GhostComposer(_ghostBrick),
         boardPosition);
 
+      _brickComposer = new(_currentBrick, new BrickTileSet());
       _renderer.AddDynamicComposer(
-        new BrickComposer(_currentBrick, new BrickTileSet()), 
+        _brickComposer, 
         boardPosition);
 
       _renderer.AddStaticComposer(
@@ -138,7 +140,8 @@ namespace PixelBricksCS.Game.Gameplay
         _gameBoard.ApplyBlast(impactResult);
       }
 
-      _scoreBoard.Record(impactResult);
+      // TODO: Not Implemented yet
+      //_scoreBoard.Record(impactResult);
       
       return Animate(deltaTime, playerInputKey);
     }
@@ -148,14 +151,14 @@ namespace PixelBricksCS.Game.Gameplay
         // TODO
         return Animate;
       }
-
       // Change to next State; Execute already this frame
       return BrickGeneration(deltaTime, playerInputKey);
     }
 
     private GamePhase BrickGeneration(double deltaTime, ConsoleKey playerInputKey) {
-      Random random = new Random();
-      _currentBrick = new((BrickID)random.Next(1, 7));
+      _currentBrick = Brick.GetRandomBrick();
+      _brickComposer.ReplaceBrick(_currentBrick);
+      _ghostBrick.UpdateGhostBrick(_currentBrick);
       return Aim;
     }
 

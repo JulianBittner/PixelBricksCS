@@ -13,8 +13,6 @@ namespace PixelBricksCS.Game.Gameplay
 
     public GameBoard() {
       _grid = new BrickID[Height, Width];
-      _grid[0,6] = BrickID.I; 
-      _grid[0,8] = BrickID.I;
     }
 
     public int Height => GameMetadata.BoardHeight;
@@ -24,7 +22,7 @@ namespace PixelBricksCS.Game.Gameplay
 
     public BrickID GetIDAt(GridPosition position) {
       if (position.Y >= Height || position.Y < 0) return BrickID.None;
-      if (position.X >= Height || position.X < 0) return BrickID.None;
+      if (position.X >= Width  || position.X < 0) return BrickID.None;
       return _grid[position.Y, position.X];
     }
 
@@ -33,7 +31,17 @@ namespace PixelBricksCS.Game.Gameplay
     }
 
     public void MergeBrick(Brick brick) {
-      throw new NotImplementedException("Not yet implemented");
+      BrickShape shape = brick.Shape;
+
+      for (int y = 0; y < shape.Height; y++) {
+        for (int x = 0; x < shape.Width; x++) {
+          BrickID pixel = shape[y, x];
+          if (pixel == BrickID.None) continue;
+
+          GridPosition boardPosition = new(brick.Position.Y +y, brick.Position.X +x);
+          _grid[boardPosition.Y, boardPosition.X] = pixel;
+        }
+      }
     }
 
     public void ApplyBlast(ImpactResult impactResult) {
