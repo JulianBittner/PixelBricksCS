@@ -1,4 +1,5 @@
 ﻿using PixelBricksCS.Engine.Composing;
+using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Game.Gameplay.Bricks;
 using PixelBricksCS.Game.Gameplay.GameMechanics;
 using System;
@@ -12,12 +13,20 @@ namespace PixelBricksCS.Game.Gameplay
 
     public GameBoard() {
       _grid = new BrickID[Height, Width];
+      _grid[0,6] = BrickID.I; 
+      _grid[0,8] = BrickID.I;
     }
 
     public int Height => GameMetadata.BoardHeight;
     public int Width => GameMetadata.BoardWidth;
 
     public BrickID this[int y, int x] => _grid[y, x];
+
+    public BrickID GetIDAt(GridPosition position) {
+      if (position.Y >= Height || position.Y < 0) return BrickID.None;
+      if (position.X >= Height || position.X < 0) return BrickID.None;
+      return _grid[position.Y, position.X];
+    }
 
     public void SpawnCeilingRaw() {
       throw new NotImplementedException("Not yet implemented");

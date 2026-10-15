@@ -1,5 +1,6 @@
 ﻿using PixelBricksCS.Engine.Core;
 using PixelBricksCS.Engine.Diagnostics;
+using PixelBricksCS.Engine.Rendering;
 using PixelBricksCS.Game.Gameplay.Actions;
 using PixelBricksCS.Game.Gameplay.Bricks;
 using System;
@@ -44,17 +45,29 @@ namespace PixelBricksCS.Game.Gameplay.GameMechanics
       else return wallkick;
     }
 
-    public static HashSet<GridPosition> FindContactPixels(GameBoard _gameBoard, Brick brick) {
+    public static HashSet<GridPosition> FindContactPixels(GameBoard gameBoard, Brick brick) {
       HashSet<GridPosition> contacts = new();
       BrickShape shape = brick.Shape;
 
       for (int y = 0; y < shape.Height; y++) {
         for (int x = 0; x < shape.Width; x++) {
-          // WIP 
-          throw new NotImplementedException("Not yet implemented");
+          BrickID pixel = shape[y, x];
+          if (pixel == BrickID.None) continue;
+
+          GridPosition boardPosition = new (brick.Position.Y + y, brick.Position.X + x);
+          if (gameBoard.GetIDAt(boardPosition.WithOffset( 0, -1)) != BrickID.None)
+            contacts.Add(boardPosition.WithOffset(0, -1));
+
+          if (gameBoard.GetIDAt(boardPosition.WithOffset( 0, +1)) != BrickID.None)
+            contacts.Add(boardPosition.WithOffset(0, +1));
+
+          if (gameBoard.GetIDAt(boardPosition.WithOffset(-1,  0)) != BrickID.None)
+            contacts.Add(boardPosition.WithOffset(-1, 0));
+
+          if (gameBoard.GetIDAt(boardPosition.WithOffset(+1,  0)) != BrickID.None)
+            contacts.Add(boardPosition.WithOffset(+1, 0));
         }
       }
-
       return contacts;
     }
 
