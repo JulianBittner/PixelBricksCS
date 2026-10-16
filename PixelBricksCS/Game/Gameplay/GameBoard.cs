@@ -45,7 +45,9 @@ namespace PixelBricksCS.Game.Gameplay
     }
 
     public void ApplyBlast(ImpactResult impactResult) {
-      throw new NotImplementedException("Not yet implemented");
+      foreach (var pixel in impactResult.AffectedPixels) {
+        _grid[pixel.Y, pixel.X] = BrickID.None;
+      }
     }
 
     public void Reset() {

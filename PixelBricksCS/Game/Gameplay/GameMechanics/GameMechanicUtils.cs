@@ -87,11 +87,33 @@ namespace PixelBricksCS.Game.Gameplay.GameMechanics
       return new(contactPixels, contacts, range);
     }
 
-    public static ImpactResult DeterminBlastArea(
-      GameBoard gameBoard, Brick brick, HashSet<GridPosition> contactPixels) 
+    public static ImpactResult DeterminBlastArea(GameBoard gameBoard, ImpactResult impactResult) 
     {
-      throw new NotImplementedException("Not yet implemented");
-      return new ImpactResult(new(), 0, 0);
+      // blastArea[0] -> blast pixels
+      // blastArea[1] -> bigBlast pixels
+      // blastArea[2] -> MegaBlast pixels
+      HashSet<GridPosition>[] blastLayers = [impactResult.AffectedPixels, new(), new()];
+
+      for (int i = 1; i < impactResult.Range; i++) {
+        foreach (GridPosition pixel in blastLayers[i-1]) {
+          if (gameBoard.GetIDAt(pixel.WithOffset(0, -1)) != BrickID.None)
+            blastLayers[i].Add(pixel.WithOffset(0, -1));
+
+          if (gameBoard.GetIDAt(pixel.WithOffset(0, +1)) != BrickID.None)
+            blastLayers[i].Add(pixel.WithOffset(0, +1));
+         
+          if (gameBoard.GetIDAt(pixel.WithOffset(-1, 0)) != BrickID.None)
+            blastLayers[i].Add(pixel.WithOffset(-1, 0));         
+
+          if (gameBoard.GetIDAt(pixel.WithOffset(+1, 0)) != BrickID.None)
+            blastLayers[i].Add(pixel.WithOffset(+1, 0));
+        }
+      }
+      HashSet<GridPosition> blastArea = new(blastLayers[0]);
+      blastArea.UnionWith(blastLayers[1]);
+      blastArea.UnionWith(blastLayers[2]);
+
+      return new ImpactResult(blastArea, impactResult.Contacts, impactResult.Range);
     }
 
     public static bool CeilingReachedBottom(GameBoard gameBoard) {

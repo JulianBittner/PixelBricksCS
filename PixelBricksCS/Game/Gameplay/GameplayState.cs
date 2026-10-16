@@ -125,8 +125,8 @@ namespace PixelBricksCS.Game.Gameplay
       if (impactResult.Contacts < 3)
         _gameBoard.MergeBrick(_currentBrick);
       else {
-        //TODO: Not implemented yet
-        //_gameBoard.ApplyBlast(impactResult);
+        impactResult = GameMechanicUtils.DeterminBlastArea(_gameBoard, impactResult);
+        _gameBoard.ApplyBlast(impactResult);
       }
       // TODO: Not Implemented yet
       //_scoreBoard.Record(impactResult);
