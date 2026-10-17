@@ -18,11 +18,11 @@ namespace PixelBricksCS.Game.Gameplay.GameMechanics
           if (pixel == BrickID.None) continue;
           GridPosition pixelPosition = new(y + preview.Position.Y, x + preview.Position.X);
 
-          // Ceiling collision
+          // Roof collision
           if (pixelPosition.Y < 0) return true;
           // Wall collision
           if (pixelPosition.X < 0 || pixelPosition.X >= gameBoard.Width) return true;
-          // Pixel collision
+          // Ceiling collision
           if (gameBoard[pixelPosition.Y, pixelPosition.X] != BrickID.None) return true;
         }
       }
@@ -117,7 +117,11 @@ namespace PixelBricksCS.Game.Gameplay.GameMechanics
     }
 
     public static bool CeilingReachedBottom(GameBoard gameBoard) {
-      throw new NotImplementedException("Not yet implemented");
+      int y = gameBoard.Height -1;
+      for (int x = 0; x < gameBoard.Width; x++) {
+        if (gameBoard[y, x] != BrickID.None) return true;
+      }
+      return false;
     }
   }
 }

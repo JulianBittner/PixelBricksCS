@@ -28,6 +28,6 @@ namespace PixelBricksCS.Game
     public const int BigBlastThreshold = 6;   // contact points needed for a big blast
     public const int MegaBlastThreshold = 8;   // contact points needed for a mega blast
 
-    public const double DefaultCeilingSeconds = 1000.0;
+    public const double DefaultCeilingSeconds = 2;
   }
 }

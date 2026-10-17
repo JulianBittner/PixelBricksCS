@@ -22,14 +22,16 @@ namespace PixelBricksCS.Game.Gameplay
   internal class GameplayState : IEngineState<GameStateID>
   {
     private delegate GamePhase GamePhase(double deltaTime, ConsoleKey playerInputKey);
-    GamePhase _currentPhase;
+    private GamePhase _currentPhase = null!;
 
     private IContextHandle<GameStateID> _contextHandle = null!;
     private IAudioHandle _audioHandle = null!;
 
     private FrameBuffer _frameBuffer = new();
-    private Renderer _renderer;
+    private Renderer _renderer = null!;
     private BrickComposer _brickComposer = null!;
+    private BlockTextComposer _gameOverComposer;
+    private BlockComposer _promptComposer;
 
     private ActionController _actionController;
     private WorldController _worldController;
@@ -42,24 +44,29 @@ namespace PixelBricksCS.Game.Gameplay
 
 
     public GameplayState() {
-      _renderer = new(_frameBuffer);
+      _gameOverComposer = new("GAME OVER", CellColor.Red);
+      _promptComposer = new(new CharSprite(["[Press enter to leave]"]), CellColor.Red);
 
       _currentBrick = Brick.GetRandomBrick();
-      _ghostBrick = new(_gameBoard, _currentBrick);
-
+      _ghostBrick = new(_gameBoard, Brick.GetRandomBrick());
       _actionController = new ActionController(_gameBoard, _ghostBrick);
-      _worldController = new WorldController(_gameBoard);
-
-      _currentPhase = Aim;
+      _worldController = new WorldController(_gameBoard, _ghostBrick);
     }
 
     GameStateID IEngineState<GameStateID>.StateID => GameStateID.Gameplay;
     FrameBuffer IEngineState<GameStateID>.TargetBuffer => _frameBuffer;
 
     public void Init() {
+      ResetRenderer();
+    }
+
+    private void ResetRenderer() {
       int screenMid = (EngineConfig.GameConsoleSize.Width / 2) - (_gameBoard.Width);
       int belowTitle = 7;
       GridPosition boardPosition = new(belowTitle, screenMid);
+
+      _frameBuffer.Clear();
+      _renderer = new(_frameBuffer);
 
       TileMapComposer<BrickID> tileMapComposer = new(_gameBoard, new BrickTileSet());
       _renderer.AddDynamicComposer(tileMapComposer, boardPosition);
@@ -86,6 +93,14 @@ namespace PixelBricksCS.Game.Gameplay
     void IEngineState<GameStateID>.Enter(IContextHandle<GameStateID> contextHandle, IAudioHandle audioHandle) {
       _contextHandle = contextHandle;
       _audioHandle = audioHandle;
+
+      ResetRenderer();
+      _gameBoard.Reset();
+      _currentBrick = Brick.GetRandomBrick();
+      _brickComposer.ReplaceBrick(_currentBrick);
+      _ghostBrick.UpdateGhostBrick(_currentBrick);
+      _currentPhase = Aim;
+
       _audioHandle.PlayMusicLoop(new GameMusicTrack1());
     }
 
@@ -104,8 +119,16 @@ namespace PixelBricksCS.Game.Gameplay
 
     private GamePhase Aim(double deltaTime, ConsoleKey playerInputKey) {
       bool isGameOver = _worldController.DescentCeiling(deltaTime, _currentBrick);
-      if (isGameOver) 
-        throw new NotImplementedException("GameOver Screen not yet implemented");
+      if (isGameOver) {
+        _audioHandle.StopMusicLoop();
+        _audioHandle.PlaySound(GameOverSound.Create());
+
+        GridPosition gameOverPosition = new(32, 5);
+        _renderer.AddDynamicComposer(_gameOverComposer, gameOverPosition);
+        _renderer.AddDynamicComposer(_promptComposer,   gameOverPosition.WithOffset(7,26));
+
+        return GameOver;
+      }
 
       GameAction action = GameInputMapper.ToAction(playerInputKey);
       if (action == GameAction.None) 
@@ -117,14 +140,13 @@ namespace PixelBricksCS.Game.Gameplay
         return Aim;
       }
 
-      ImpactResult impactResult 
-        = GameMechanicUtils.ImpactAnalysis(_gameBoard, _currentBrick);
+      ImpactResult impactResult = GameMechanicUtils.ImpactAnalysis(_gameBoard, _currentBrick);
       _audioHandle.PlaySound(GetImpactSound(impactResult));
       _audioHandle.PlaySound(GameSounds.CreateLaunch());
 
-      if (impactResult.Contacts < 3)
+      if (impactResult.Contacts < 3) {
         _gameBoard.MergeBrick(_currentBrick);
-      else {
+      } else {
         impactResult = GameMechanicUtils.DeterminBlastArea(_gameBoard, impactResult);
         _gameBoard.ApplyBlast(impactResult);
       }
@@ -140,14 +162,22 @@ namespace PixelBricksCS.Game.Gameplay
         return Animate;
       }
       // Change to next State; Execute already this frame
-      return BrickGeneration(deltaTime, playerInputKey);
+      return SpawnBrick(deltaTime, playerInputKey);
     }
 
-    private GamePhase BrickGeneration(double deltaTime, ConsoleKey playerInputKey) {
+    private GamePhase SpawnBrick(double deltaTime, ConsoleKey playerInputKey) {
       _currentBrick = Brick.GetRandomBrick();
       _brickComposer.ReplaceBrick(_currentBrick);
       _ghostBrick.UpdateGhostBrick(_currentBrick);
       return Aim;
+    }
+
+    private GamePhase GameOver(double deltaTime, ConsoleKey playerInputKey) {
+      if (playerInputKey == ConsoleKey.Enter) {
+        _audioHandle.PlaySound(StockMenuSounds.CreateConfirmationBlip());
+        _contextHandle.RequestStateChange(GameStateID.Menu);
+      }
+      return GameOver;
     }
 
     private ISampleProvider GetImpactSound(ImpactResult impactResult) 

@@ -26,8 +26,17 @@ namespace PixelBricksCS.Game.Gameplay
       return _grid[position.Y, position.X];
     }
 
-    public void SpawnCeilingRaw() {
-      throw new NotImplementedException("Not yet implemented");
+    public void SpawnCeilingRow() {
+      for (int y = Height -1; y > 0; y--) {
+        for (int x = 0; x < Width; x++) {
+          _grid[y, x] = _grid[y-1, x];
+          _grid[y-1, x] = BrickID.None;
+        }
+      }
+
+      for (int x = 0; x < Width; x++) {
+        _grid[0, x] = BrickID.Ceiling;
+      }
     }
 
     public void MergeBrick(Brick brick) {
