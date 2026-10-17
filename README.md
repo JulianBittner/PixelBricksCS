@@ -57,6 +57,18 @@ Action → Controller → Preview → Collision check → Apply → Action resul
 - **Action results** — the controller reports what happened, and the gameplay state plays matching sound feedback, keeping the controller free of input and audio.
 - **Ghost brick** — shows where the brick would hit when launched.
 
+A launched brick then runs through the game flow:
+
+```
+Launch → Impact analysis → Blast or merge → Next brick
+```
+
+- **Impact analysis** — counts the contacts, the edges a brick pixel shares with a ceiling pixel. The count decides whether the brick blasts the ceiling or merges into it, and how far the blast reaches.
+- **Blast** — spreads from the contact pixels across adjacent ceiling pixels with a breadth-first search, limited by the blast radius.
+- **Merge** — without a blast, the brick's pixels become part of the ceiling.
+- **Descent** — the ceiling moves down one row at a regular interval. The game is over when it reaches the brick or the bottom row.
+- **Phases** — the gameplay state runs its flow as phases (aim, animation, spawn brick, game over), each returning the next phase.
+
 The **game loop** drives interchangeable states (via a state machine) frame by frame, using a frame timer to cap the frame rate and provide delta time. It polls the input and passes it to the active state.
 
 ## Project Structure
@@ -77,7 +89,7 @@ Requires Windows (audio output uses WinMM).
 
 ## Status
 
-Actively in development. The current build includes an animated splash screen, a main menu, an exit screen, and the first gameplay: the brick can be moved and rotated with collision detection and wall kicks, and a ghost brick shows its launch target.
+Actively in development. The current build includes an animated splash screen, a main menu, an exit screen, and the core gameplay: the brick can be moved and rotated with collision detection and wall kicks, and a ghost brick shows its launch target. Launched at the descending ceiling, the brick either blasts ceiling pixels or merges into the ceiling, with sound effects for launches, merges and blasts. When the ceiling reaches the brick or the bottom row, the game is over and the player returns to the menu.
 
 See `docs/BACKLOG.md` for the current feature set and roadmap, and `docs/SPRINT.md` for the current sprint.
 

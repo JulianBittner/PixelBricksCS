@@ -22,39 +22,38 @@ Rough overview of all planned features. Serves as a roadmap. Details are worked 
 
 ## 3. Player Controls (in-game)
 - [x] Sideways movement (left/right)
-- [ ] Rotation (clockwise; counterclockwise optional)
-- [ ] Collision: the brick cannot move through the board walls
-- [ ] Wall kicks (rotation near walls/blocks shifts the piece if possible)
-- [ ] Hard drop (instant drop and lock)
+- [x] Rotation (clockwise; counterclockwise optional)
+- [x] Collision: the brick cannot move through the board walls
+- [x] Wall kicks (rotation near walls/blocks shifts the piece if possible)
+- [x] Launch
 
 ## 4. Game Rules
-- [ ] Every x seconds, a new row spawns at the top of the ceiling and pushes it one row down
+- [x] Every x seconds, a new row spawns at the top of the ceiling and pushes it one row down
+- [x] The brick is fixed vertically at the bottom of the board and can only move left and right
+- [x] Pressing Space launches the brick straight up; it lands at the ceiling and blasts all pixels it touches
 - [ ] The descent speed increases with the collected points
-- [ ] The brick is fixed vertically at the bottom of the board and can only move left and right
-- [ ] Pressing Space launches the brick straight up; it lands at the ceiling and blasts all pixels it touches
 - [ ] Every blasted pixel scores one point 
 
 ## 5. HUD (in-game UI)
 - [ ] Score display
 - [ ] Level display
-- [ ] Cleared-lines counter
 - [ ] Next-piece preview
 - [ ] Layout: playing field + side panel arrangement in the buffer
 
 ## 6. Menu & App Flow
 - [x] Title/splash screen: block-letter logo with drop-in animation on startup
-- [ ] Menu layout and rendering (title, selectable items)
-- [ ] Menu items: Start Game, Exit (Options later if needed)
-- [ ] Selection logic (highlighted item, up/down navigation, confirm)
-- [ ] App flow wiring: app starts into menu → menu starts game
+- [x] Menu layout and rendering (title, selectable items)
+- [x] Menu items: Start Game, Exit (Options later if needed)
+- [x] Selection logic (highlighted item, up/down navigation, confirm)
+- [x] App flow wiring: app starts into menu → menu starts game
+- [x] Game-over screen (final score, restart or back to menu)
 - [ ] Pause state (freeze gameplay, show pause overlay, resume/quit)
-- [ ] Game-over screen (final score, restart or back to menu)
 
 ## 7. Polish (optional, later)
-- [ ] Ghost piece (landing position preview)
+- [x] Ghost piece (landing position preview)
+- [x] Color scheme per tetromino type (guideline colors)
+- [x] Sound effects (console beep — if feasible and not annoying)
 - [ ] Hold piece (stash current piece, swap once per drop)
-- [ ] Color scheme per tetromino type (guideline colors)
 - [ ] High score storage (persist to file)
-- [ ] Line-clear animation (brief flash before rows collapse)
-- [ ] Sound effects (console beep — if feasible and not annoying)
+- [ ] Blast animation
 - [ ] Smooth difficulty curve tuning
