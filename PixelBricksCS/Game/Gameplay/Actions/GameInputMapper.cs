@@ -11,6 +11,7 @@ namespace PixelBricksCS.Game.Gameplay.Actions
       ConsoleKey.RightArrow => GameAction.MoveRight,
       ConsoleKey.UpArrow => GameAction.RotateRight,
       ConsoleKey.DownArrow => GameAction.RotateLeft,
+      ConsoleKey.Spacebar => GameAction.LaunchBrick,
       _ => GameAction.None,
     };
   }

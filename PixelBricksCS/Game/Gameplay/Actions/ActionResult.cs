@@ -10,6 +10,8 @@ namespace PixelBricksCS.Game.Gameplay.Actions
     Moved,
     Rotated,
     Blocked,
-    Placed
+    Launched,
+    Merged,
+    Blasted
   }
 }

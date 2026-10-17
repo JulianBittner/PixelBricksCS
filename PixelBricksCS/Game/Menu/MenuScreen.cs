@@ -78,8 +78,8 @@ namespace PixelBricksCS.Game.Menu
       _renderer.RenderDynamicContent();
     }
 
-    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey userInputKey) {
-      switch (MenuInputMapper.ToAction(userInputKey)) {
+    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey playerInputKey) {
+      switch (MenuInputMapper.ToAction(playerInputKey)) {
         case MenuAction.MoveUp:
           _audioHandle.PlaySound(StockMenuSounds.CreateCursorBlip());
           if (_selectedIndex == 0) return;

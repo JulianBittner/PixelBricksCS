@@ -53,7 +53,7 @@ namespace PixelBricksCS.Engine.Audio
 
     public void UpdateMusicLoop(double deltaTime) {
       if (_currentMusicTrack == null) return;
-      if (_musicTimer.TimeUp(deltaTime)) {
+      if (_musicTimer.IsTimeUp(deltaTime)) {
         _musicTimer.Reset();
         _musicMixer.AddMixerInput(_currentMusicTrack.CreateTrack());
       }

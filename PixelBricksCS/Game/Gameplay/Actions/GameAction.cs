@@ -10,6 +10,7 @@ namespace PixelBricksCS.Game.Gameplay.Actions
     MoveLeft,
     MoveRight,
     RotateLeft,
-    RotateRight    
+    RotateRight,
+    LaunchBrick
   }
 }

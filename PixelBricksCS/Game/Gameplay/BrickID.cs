@@ -14,5 +14,6 @@ namespace PixelBricksCS.Game.Gameplay
     J = 5,
     S = 6,
     Z = 7,
+    Ceiling = 8
   }
 }

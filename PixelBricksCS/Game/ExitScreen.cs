@@ -56,8 +56,8 @@ namespace PixelBricksCS.Game
       // do nothing
     }
 
-    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey UserInputKey) {
-      if (_waitTimer.TimeUp(deltaTime)) { 
+    void IEngineState<GameStateID>.Update(double deltaTime, ConsoleKey playerInputKey) {
+      if (_waitTimer.IsTimeUp(deltaTime)) { 
         _contextHandle.RequestShutdown();
       }
     }

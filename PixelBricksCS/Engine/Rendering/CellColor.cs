@@ -15,7 +15,6 @@ namespace PixelBricksCS.Engine.Rendering
     Magenta,
     Cyan,
     White,
-    Grey,
     Gray,
     BrightRed,
     BrightGreen,
