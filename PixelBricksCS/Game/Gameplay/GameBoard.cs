@@ -62,8 +62,7 @@ namespace PixelBricksCS.Game.Gameplay
     public void Reset() {
       for (int y = 0; y < Height; y++) {
         for (int x = 0; x < Width; x++) {
-          if (y + x % 2 == 0)
-            _grid[y, x] = BrickID.None;
+          _grid[y, x] = BrickID.None;
         }
       }
     }
